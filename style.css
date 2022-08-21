@@ -1,0 +1,256 @@
+@font-face {
+	font-family: 'sourcecodepropowerlineawesoRg';
+	src: url(/assets/SourceCodePro+Powerline+Awesome+Regular.ttf);
+	font-weight: normal;
+	font-style: normal;
+}
+
+body {
+	font-family: 'sourcecodepropowerlineawesoRg', sans-serif;
+}
+
+.paddingBottom {
+	padding-bottom: 40px;
+}
+
+.navbarToggle {
+	margin-right: 1rem;
+}
+
+.brandImage {
+	margin-left: 20px;
+	margin-right: 10px;
+}
+
+.brandAnchor {
+	margin-left: 10px;
+}
+
+.brandAnchor :hover {
+	transform: rotateZ(15deg) scale(1.1, 1.1);
+	font-size: 21px;
+}
+
+.menu {
+	justify-content: end;
+	margin-right: 20px;
+}
+
+.navbarCollapse {
+	margin-left: 20px;
+}
+
+.backgroundGreetings {
+	background-image: url(/assets/coding-1853305.jpg);
+	background-size: cover;
+}
+
+.backgroundDark {
+	background-image: linear-gradient(to right, #515151, #828282);
+}
+
+.backgroundLight {
+	background-image: linear-gradient(
+		to right,
+		rgb(191, 191, 191),
+		rgb(161, 161, 161)
+	);
+}
+
+.greetingsLogo {
+	width: 30%;
+	display: block;
+}
+
+.navbarTopMargin {
+	margin-top: 80px;
+}
+
+.Header {
+	padding-top: 15px;
+	text-align: center;
+}
+
+.colCss {
+	margin: auto;
+}
+
+.colCss:first-child {
+	margin-top: 15px;
+}
+
+.colCss img {
+	border-radius: 5px;
+	width: 81%;
+	display: block;
+	margin: auto auto;
+}
+
+.rockPaperScissors {
+	border: 1px solid;
+	border-radius: 5px;
+	width: 85%;
+	display: block;
+	margin: auto;
+	margin-top: 15px;
+}
+
+.colCss button {
+	display: block;
+	margin: auto;
+	margin-top: 10px;
+	padding: 5px 2rem;
+	width: 83%;
+	margin-bottom: 15px;
+	text-decoration: none;
+}
+
+.noTextDecoration {
+	text-decoration: none;
+}
+
+.M_logo,
+.ElianPortfolioText {
+	animation: fadeInAnimation ease 3s;
+	animation-iteration-count: 1;
+}
+
+.overview a img {
+	width: 30%;
+	display: block;
+	margin: auto;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	border-radius: 50%;
+}
+
+.overview a {
+	text-align: center;
+	text-decoration: none;
+	color: black;
+}
+
+.overview a h2 {
+	margin-bottom: 30px;
+}
+
+.overview a h5 {
+	text-align: center;
+	margin-bottom: 30px;
+}
+
+.aboutMeParagraph {
+	text-align: center;
+	font-size: 20px;
+	margin: 50px;
+}
+
+.groguSvg {
+	max-width: 100px;
+	width: 100%;
+	transform: translateX(100%);
+	transition: all 3s ease;
+}
+
+.groguSvg.fadeOutAnimation {
+	transform: translateX(0%);
+}
+
+.sendEmail {
+	text-align: center;
+}
+
+.sendEmail a {
+	color: black;
+}
+
+textarea {
+	display: block;
+	width: 100%;
+	padding: 0.375rem 0.75rem;
+	font-size: 1rem;
+	font-weight: 400;
+	line-height: 1.5;
+	color: #212529;
+	background-color: #fff;
+	background-clip: padding-box;
+	border: 1px solid #ced4da;
+	appearance: none;
+	border-radius: 0.375rem;
+	transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.submitBtn {
+	display: block;
+	margin: auto;
+}
+
+footer h6 {
+	text-align: center;
+	margin: 0;
+	padding: 1rem;
+}
+
+@keyframes fadeInAnimation {
+	0% {
+		transform: translateX(-100%);
+	}
+	100% {
+		transform: translateX(0);
+	}
+}
+
+/* @keyframes fadeOutAnimation {
+	0% {
+		transform: translateX(110%);
+	}
+	100% {
+		transform: translateX(10%);
+	}
+} */
+
+@media (max-width: 991px) {
+	.colCss img {
+		width: 60%;
+	}
+
+	.colCss button {
+		width: 60%;
+	}
+
+	.groguSvg {
+		transform: translateX(110%);
+	}
+
+	.groguSvg.fadeOutAnimation {
+		transform: translateX(10%);
+	}
+
+	.aboutMeParagraph {
+		margin-right: 0;
+	}
+}
+
+@media (max-width: 575px) {
+	.groguSvg {
+		transform: none;
+		display: block;
+		margin: auto;
+		rotate: 90deg;
+	}
+
+	.groguSvg.fadeOutAnimation {
+		transform: none;
+	}
+
+	.aboutMeParagraph {
+		margin-right: 50px;
+		margin-bottom: 0;
+	}
+
+	.groguCol {
+		height: 210px;
+		margin: 0;
+		padding: 0;
+	}
+}
