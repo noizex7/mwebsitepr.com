@@ -1,12 +1,12 @@
 @font-face {
-	font-family: 'sourcecodepropowerlineawesoRg';
+	font-family: 'SourceCodePro+Powerline+AwesomeRegular';
 	src: url(/assets/SourceCodePro+Powerline+Awesome+Regular.ttf);
 	font-weight: normal;
 	font-style: normal;
 }
 
 body {
-	font-family: 'sourcecodepropowerlineawesoRg', sans-serif;
+	font-family: 'SourceCodePro+Powerline+AwesomeRegular', sans-serif;
 }
 
 .paddingBottom {
