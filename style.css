@@ -221,7 +221,7 @@ footer h6 {
 	}
 } */
 
-/* @media (max-width: 991px) {
+@media (max-width: 991px) {
 	.colCss img {
 		width: 60%;
 	}
@@ -229,40 +229,16 @@ footer h6 {
 	.colCss button {
 		width: 60%;
 	}
-
-	.groguSvg {
-		transform: translateX(110%);
-	}
-
-	.groguSvg.fadeOutAnimation {
-		transform: translateX(10%);
-	}
-
-	.aboutMeParagraph {
-		margin-right: 0;
-	}
-}
-
-@media (max-width: 575px) {
-	.groguSvg {
-		transform: none;
+	.largeLogo {
+		padding: 100px 0 0 0;
 		display: block;
 		margin: auto;
-		rotate: 90deg;
 	}
 
-	.groguSvg.fadeOutAnimation {
-		transform: none;
-	}
-
-	.aboutMeParagraph {
-		margin-right: 50px;
-		margin-bottom: 0;
-	}
-
-	.groguCol {
-		height: 210px;
+	.portfolioText {
+		padding-top: 30px;
+		padding-bottom: 30px;
 		margin: 0;
-		padding: 0;
+		text-align: center;
 	}
-} */
+}
