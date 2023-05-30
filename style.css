@@ -110,8 +110,21 @@ body {
 	text-decoration: none;
 }
 
-.M_logo,
-.ElianPortfolioText {
+.largeLogo {
+	padding-top: 100px;
+	padding-left: 100px;
+	width: 30rem;
+	height: auto;
+}
+
+.portfolioText {
+	padding-top: 30px;
+	padding-bottom: 30px;
+	margin-left: 70px;
+}
+
+.largeLogo,
+.portfolioText {
 	animation: fadeInAnimation ease 3s;
 	animation-iteration-count: 1;
 }
