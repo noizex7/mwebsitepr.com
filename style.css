@@ -86,15 +86,7 @@ body {
 	width: 550px;
 	display: block;
 	margin: auto auto;
-}
-
-.rockPaperScissors {
-	border: 1px solid;
-	border-radius: 5px;
-	width: 85%;
-	display: block;
-	margin: auto;
-	margin-top: 15px;
+	border: 2px solid black !important;
 }
 
 .colCss button {
@@ -129,6 +121,12 @@ body {
 .portfolioText {
 	animation: fadeInAnimation ease 3s;
 	animation-iteration-count: 1;
+}
+
+.workItems {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
 }
 
 .overview a img {

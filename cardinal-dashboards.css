@@ -1,0 +1,64 @@
+@font-face {
+	font-family: 'SourceCodePro+Powerline+AwesomeRegular';
+	src: url(/assets/SourceCodePro+Powerline+Awesome+Regular.ttf);
+	font-weight: normal;
+	font-style: normal;
+}
+
+body {
+	font-family: 'SourceCodePro+Powerline+AwesomeRegular', sans-serif;
+}
+
+.backgroundDark {
+	background-image: linear-gradient(to right, #515151, #828282);
+}
+
+.backgroundLight {
+	background-image: linear-gradient(
+		to right,
+		rgb(191, 191, 191),
+		rgb(161, 161, 161)
+	);
+}
+
+section:first-of-type {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-evenly;
+	align-items: center;
+}
+
+section img {
+	width: 400px;
+	border-radius: 6px;
+	margin-top: 10px;
+	max-width: 100%;
+	height: auto;
+}
+
+section div {
+	display: flex;
+	flex-wrap: wrap;
+	align-content: center;
+	justify-content: space-around;
+	align-items: center;
+}
+
+.row button {
+	width: 250px;
+	margin-top: 10px;
+}
+
+.border {
+	border: 2px solid black !important;
+}
+
+@media (max-width: 1320px) {
+	section {
+		flex-direction: column;
+	}
+
+	.marginForCardinal {
+		margin: 100px;
+	}
+}
