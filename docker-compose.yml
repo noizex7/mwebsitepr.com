@@ -1,0 +1,10 @@
+version: "1"
+
+services:
+  mwebsite:
+    build: /home/noize/mwebsitepr.com/
+    volumes:    
+      - /home/noize/mwebsitepr.com:/usr/share/nginx/html
+    ports:
+      - "9005:80"
+    restart: unless-stopped
