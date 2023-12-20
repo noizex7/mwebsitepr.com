@@ -53,6 +53,12 @@ section div {
 	border: 2px solid black !important;
 }
 
+.flexSpaceEvenly{
+	display: flex;
+	justify-content: space-evenly;
+	gap: 10px;
+}
+
 @media (max-width: 1320px) {
 	section {
 		flex-direction: column;
