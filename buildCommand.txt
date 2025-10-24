@@ -1,1 +1,2 @@
-sudo docker build -t mwebsite-image:latest .
+docker build -t mwebsite-backend:latest /home/noize/mwebsitepr.com/python-backend
+docker build -t mwebsite-image:latest /home/noize/mwebsitepr.com

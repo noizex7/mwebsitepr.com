@@ -3,8 +3,21 @@ services:
     build: /home/noize/mwebsitepr.com/
     volumes:    
       - /home/noize/mwebsitepr.com:/usr/share/nginx/html
+      - /home/noize/mwebsitepr.com/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
     labels:
       - "com.centurylinklabs.watchtower.enable=false"
     ports:
       - "9005:80"
+    restart: unless-stopped
+    depends_on:
+      - python-backend
+
+  python-backend:
+    build: /home/noize/mwebsitepr.com/python-backend
+    volumes:
+      - /home/noize/mwebsitepr.com/python-backend/scripts:/app/scripts:ro
+    environment:
+      - ALLOWED_ORIGINS=
+    ports:
+      - "9006:8000"
     restart: unless-stopped

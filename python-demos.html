@@ -51,32 +51,34 @@
     <div class="row">
       <div class="col-12">
         <h1 class="Header">Python Demos</h1>
-        <p class="pythonDescription">Run the showcase Python projects directly in your browser. Input prompts will open
-          as regular dialogs so you can interact with the programs.</p>
+        <p class="pythonDescription">Launch one of the showcase scripts on the server and interact with it in real time.
+          Type into the console input whenever the program prompts you.</p>
       </div>
     </div>
     <div class="row">
       <div class="col-12">
-        <div class="mb-3">
-          <label class="form-label" for="example-selector">Choose an example to load</label>
-          <div class="pythonExampleRow">
-            <select class="form-select" id="example-selector"></select>
-            <button class="btn btn-dark" id="load-example" type="button">Load Example</button>
-            <a class="btn btn-outline-dark" href="https://replit.com/@noizex7" target="_blank"
-              rel="noopener noreferrer">View on Replit</a>
+        <div class="pythonControls">
+          <div class="mb-3">
+            <label class="form-label" for="script-selector">Choose a project</label>
+            <select class="form-select" id="script-selector"></select>
           </div>
-        </div>
-        <div class="mb-3">
-          <label class="form-label" for="python-code">Python code</label>
-          <textarea id="python-code" rows="16" spellcheck="false"></textarea>
-        </div>
-        <div class="pythonActions">
-          <button class="btn btn-dark" id="run-python" type="button">Run</button>
-          <button class="btn btn-outline-dark" id="clear-output" type="button">Clear Output</button>
+          <div class="pythonActionButtons">
+            <button class="btn btn-dark" id="start-script" type="button">Start Script</button>
+            <button class="btn btn-outline-dark" id="stop-script" type="button" disabled>Stop</button>
+            <button class="btn btn-secondary" id="clear-output" type="button">Clear Output</button>
+          </div>
+          <p class="pythonStatus" id="python-status">Select a project and press Start Script.</p>
         </div>
         <h2 class="pythonOutputTitle">Program output</h2>
         <pre id="python-output" class="pythonOutput" aria-live="polite"></pre>
-        <p class="pythonStatus" id="python-status">Loading runtime...</p>
+        <form class="pythonConsoleInput" id="console-form" autocomplete="off">
+          <label class="form-label" for="console-input">Console input</label>
+          <div class="pythonConsoleInputRow">
+            <input class="form-control" id="console-input" type="text" placeholder="Type a line to send" autocomplete="off" disabled>
+            <button class="btn btn-dark" id="send-input" type="submit" disabled>Send</button>
+          </div>
+          <small class="pythonConsoleHint">Input is sent line-by-line to the running script.</small>
+        </form>
       </div>
     </div>
   </main>
@@ -85,173 +87,205 @@
     <div class="container">
       <div class="row">
         <div class="col-12">
-          <p class="pythonFooterText">Ready for more? Head back to the <a href="/index.html#work">work section</a> to
-            explore every project.</p>
+          <p class="pythonFooterText">Want to see the source? Reach out and I’ll share the repository links.</p>
         </div>
       </div>
     </div>
   </footer>
 
-  <script src="https://cdn.jsdelivr.net/pyodide/v0.24.1/full/pyodide.js"></script>
   <script type="module">
-    const codeEditor = document.getElementById("python-code");
+    const scriptSelector = document.getElementById("script-selector");
+    const startButton = document.getElementById("start-script");
+    const stopButton = document.getElementById("stop-script");
+    const clearButton = document.getElementById("clear-output");
     const outputElement = document.getElementById("python-output");
     const statusElement = document.getElementById("python-status");
-    const runButton = document.getElementById("run-python");
-    const clearButton = document.getElementById("clear-output");
-    const exampleSelector = document.getElementById("example-selector");
-    const loadButton = document.getElementById("load-example");
+    const consoleForm = document.getElementById("console-form");
+    const consoleInput = document.getElementById("console-input");
+    const sendButton = document.getElementById("send-input");
 
-    const examples = {
-      password: {
-        label: "Secure Password Generator",
-        path: "/assets/python/password_generator.py"
-      },
-      hangman: {
-        label: "Hangman Game",
-        path: "/assets/python/hangman.py"
-      },
-      rps: {
-        label: "Rock, Paper, Scissors",
-        path: "/assets/python/rock_paper_scissors.py"
-      }
-    };
+    const wsProtocol = window.location.protocol === "https:" ? "wss" : "ws";
+    const wsUrl = `${wsProtocol}://${window.location.host}/ws/run`;
 
-    for (const [key, value] of Object.entries(examples)) {
-      const option = document.createElement("option");
-      option.value = key;
-      option.textContent = value.label;
-      exampleSelector.append(option);
+    let socketsScripts = [];
+    let socket = null;
+    let isRunning = false;
+
+    function setStatus(message) {
+      statusElement.textContent = message;
     }
 
-    function sendOutput(text) {
+    function appendOutput(text) {
       outputElement.textContent += text;
       outputElement.scrollTop = outputElement.scrollHeight;
     }
 
-    window.sendOutput = sendOutput;
-
-    function requestInput(promptText) {
-      return window.prompt(promptText || "");
-    }
-
-    window.requestInput = requestInput;
-
-    async function fetchExampleText(example) {
-      const response = await fetch(example.path, { cache: "no-cache" });
-      if (!response.ok) {
-        throw new Error(`Failed to load ${example.path} (${response.status})`);
-      }
-      return response.text();
-    }
-
-    let exampleLoadPromise = Promise.resolve();
-
-    async function setEditorExample(key, { announce = false } = {}) {
-      const example = examples[key];
-      if (!example) {
-        return Promise.resolve();
-      }
-      exampleSelector.value = key;
+    function resetOutput() {
       outputElement.textContent = "";
-      const loadTask = (async () => {
-        try {
-          const code = await fetchExampleText(example);
-          codeEditor.value = code;
-          if (announce) {
-            sendOutput(`Loaded example: ${example.label}\n`);
-          }
-        } catch (error) {
-          codeEditor.value = "";
-          sendOutput(`Could not load example: ${error.message}\n`);
-          throw error;
+    }
+
+    function populateScripts(scripts) {
+      socketsScripts = scripts;
+      scriptSelector.innerHTML = "";
+      scripts.forEach((script, index) => {
+        const option = document.createElement("option");
+        option.value = script.id;
+        option.textContent = script.title;
+        if (index === 0) {
+          option.selected = true;
         }
-      })();
-      exampleLoadPromise = loadTask;
-      return loadTask;
+        scriptSelector.append(option);
+      });
     }
 
-    const params = new URLSearchParams(window.location.search);
-    const requestedExample = params.get("example");
-    const defaultExampleKey = Object.prototype.hasOwnProperty.call(examples, requestedExample)
-      ? requestedExample
-      : "password";
-
-    setEditorExample(defaultExampleKey).catch(() => {});
-
-    loadButton.addEventListener("click", () => {
-      const selected = exampleSelector.value;
-      setEditorExample(selected, { announce: true })
-        .then(() => {
-          const url = new URL(window.location.href);
-          url.searchParams.set("example", selected);
-          window.history.replaceState(null, "", url);
-        })
-        .catch(() => {});
-    });
-
-    clearButton.addEventListener("click", () => {
-      outputElement.textContent = "";
-    });
-
-    let pyodideReadyPromise;
-
-    async function loadRuntime() {
-      statusElement.textContent = "Loading Python runtime...";
-      const pyodide = await loadPyodide();
-      await pyodide.runPython(`
-import sys
-import js
-
-
-class _ConsoleWriter:
-    def write(self, data):
-        js.sendOutput(str(data))
-
-    def flush(self):
-        pass
-
-
-sys.stdout = _ConsoleWriter()
-sys.stderr = _ConsoleWriter()
-
-
-def _browser_input(prompt=""):
-    response = js.requestInput(str(prompt))
-    if response is None:
-        raise EOFError("User cancelled input dialog.")
-    return response
-
-
-__builtins__.input = _browser_input
-`);
-      statusElement.textContent = "Runtime ready. Press Run to execute your code.";
-      return pyodide;
-    }
-
-    async function ensureRuntime() {
-      if (!pyodideReadyPromise) {
-        pyodideReadyPromise = loadRuntime().catch((error) => {
-          statusElement.textContent = "Could not load Python runtime.";
-          sendOutput(`Runtime error: ${error}\n`);
-          throw error;
-        });
-      }
-      return pyodideReadyPromise;
-    }
-
-    runButton.addEventListener("click", async () => {
-      await exampleLoadPromise.catch(() => {});
-      const pyodide = await ensureRuntime();
-      const code = codeEditor.value;
+    async function loadScripts() {
       try {
-        await pyodide.runPythonAsync(code);
+        const response = await fetch("/api/scripts");
+        if (!response.ok) {
+          throw new Error(`Server responded with ${response.status}`);
+        }
+        const scripts = await response.json();
+        populateScripts(scripts);
       } catch (error) {
-        sendOutput(`${error}\n`);
+        setStatus("Could not load script list automatically. Using defaults.");
+        if (!socketsScripts.length) {
+          const fallback = [
+            { id: "password_generator", title: "Secure Password Generator" },
+            { id: "hangman", title: "Hangman Game" },
+            { id: "rock_paper_scissors", title: "Rock, Paper, Scissors" }
+          ];
+          populateScripts(fallback);
+        }
       }
-    });
+    }
 
-    ensureRuntime();
+    function enableConsole(enabled) {
+      consoleInput.disabled = !enabled;
+      sendButton.disabled = !enabled;
+      if (!enabled) {
+        consoleInput.value = "";
+      } else {
+        consoleInput.focus();
+      }
+    }
+
+    function setRunning(running) {
+      isRunning = running;
+      startButton.disabled = running;
+      stopButton.disabled = !running;
+      enableConsole(running);
+    }
+
+    function closeSocket() {
+      if (socket) {
+        socket.close();
+        socket = null;
+      }
+    }
+
+    function handleSocketMessage(event) {
+      let payload;
+      try {
+        payload = JSON.parse(event.data);
+      } catch {
+        return;
+      }
+
+      switch (payload.type) {
+        case "scripts":
+          if (!socketsScripts.length) {
+            populateScripts(payload.scripts);
+          }
+          break;
+        case "output":
+          appendOutput(payload.data);
+          break;
+        case "status":
+          handleStatus(payload);
+          break;
+        default:
+          break;
+      }
+    }
+
+    function handleStatus(statusPayload) {
+      const { status, message, returncode } = statusPayload;
+      if (status === "started") {
+        setStatus("Script is running. Use the input box below to interact.");
+        setRunning(true);
+      } else if (status === "finished") {
+        setStatus(`Script finished with exit code ${returncode}.`);
+        setRunning(false);
+        closeSocket();
+      } else if (status === "error") {
+        setStatus(message || "An error occurred.");
+        setRunning(false);
+      } else if (status === "stopped") {
+        setStatus("Script stopped.");
+        setRunning(false);
+        closeSocket();
+      }
+    }
+
+    function startScript() {
+      const selected = scriptSelector.value;
+      if (!selected) {
+        setStatus("Please pick a script to run.");
+        return;
+      }
+
+      resetOutput();
+      setStatus("Connecting to backend...");
+
+      closeSocket();
+
+      socket = new WebSocket(wsUrl);
+
+      socket.addEventListener("open", () => {
+        setStatus("Connection established. Starting script...");
+        socket.send(JSON.stringify({ action: "start", script: selected }));
+      });
+
+      socket.addEventListener("message", handleSocketMessage);
+
+      socket.addEventListener("error", () => {
+        setStatus("WebSocket error. Please try again.");
+        setRunning(false);
+      });
+
+      socket.addEventListener("close", () => {
+        if (isRunning) {
+          setStatus("Connection closed unexpectedly.");
+        }
+        setRunning(false);
+      });
+    }
+
+    function stopScript() {
+      if (socket && socket.readyState === WebSocket.OPEN) {
+        socket.send(JSON.stringify({ action: "stop" }));
+      }
+    }
+
+    function sendInput(event) {
+      event.preventDefault();
+      if (!socket || socket.readyState !== WebSocket.OPEN) {
+        return;
+      }
+      const value = consoleInput.value;
+      if (!value) {
+        return;
+      }
+      socket.send(JSON.stringify({ action: "input", data: `${value}\n` }));
+      consoleInput.value = "";
+    }
+
+    startButton.addEventListener("click", startScript);
+    stopButton.addEventListener("click", stopScript);
+    clearButton.addEventListener("click", resetOutput);
+    consoleForm.addEventListener("submit", sendInput);
+
+    loadScripts();
   </script>
 </body>
 

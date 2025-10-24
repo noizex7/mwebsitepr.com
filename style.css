@@ -213,18 +213,15 @@ footer h6 {
 	text-align: center;
 }
 
-.pythonExampleRow {
-	display: flex;
-	gap: 10px;
-	flex-wrap: wrap;
-	align-items: center;
+.pythonControls {
+	margin-bottom: 20px;
 }
 
-.pythonActions {
+.pythonActionButtons {
 	display: flex;
 	gap: 10px;
-	margin-bottom: 20px;
 	flex-wrap: wrap;
+	margin-bottom: 10px;
 }
 
 .pythonOutputTitle {
@@ -256,6 +253,33 @@ footer h6 {
 	margin: 0;
 	text-align: center;
 	color: #fff;
+}
+
+.pythonConsoleInput {
+	margin-top: 15px;
+}
+
+.pythonConsoleInputRow {
+	display: flex;
+	gap: 10px;
+	flex-wrap: wrap;
+	align-items: center;
+}
+
+.pythonConsoleInputRow input {
+	flex: 1 1 220px;
+	min-width: 200px;
+}
+
+.pythonConsoleInput button {
+	min-width: 90px;
+}
+
+.pythonConsoleHint {
+	display: block;
+	margin-top: 6px;
+	font-size: 0.85rem;
+	color: #212529;
 }
 
 @keyframes fadeInAnimation {
