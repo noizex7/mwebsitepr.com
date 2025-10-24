@@ -107,6 +107,19 @@
     const wsProtocol = window.location.protocol === "https:" ? "wss" : "ws";
     const wsUrl = `${wsProtocol}://${window.location.host}/ws/run`;
 
+    const params = new URLSearchParams(window.location.search);
+    const scriptAliases = {
+      password: "password_generator",
+      pass: "password_generator",
+      pwd: "password_generator",
+      hangman: "hangman",
+      rps: "rock_paper_scissors",
+      "rock-paper-scissors": "rock_paper_scissors",
+      "rock_paper_scissors": "rock_paper_scissors",
+    };
+    const requestedParam = params.get("example");
+    const requestedScript = requestedParam ? (scriptAliases[requestedParam] || requestedParam) : null;
+
     let socketsScripts = [];
     let socket = null;
     let isRunning = false;
@@ -126,16 +139,28 @@
 
     function populateScripts(scripts) {
       socketsScripts = scripts;
+      const existingSelection = scriptSelector.value;
+      const requestedMatch = requestedScript && scripts.some((script) => script.id === requestedScript);
+      const currentMatch = existingSelection && scripts.some((script) => script.id === existingSelection);
+      const defaultSelection = requestedMatch
+        ? requestedScript
+        : currentMatch
+          ? existingSelection
+          : scripts.length > 0
+            ? scripts[0].id
+            : "";
+
       scriptSelector.innerHTML = "";
-      scripts.forEach((script, index) => {
+      scripts.forEach((script) => {
         const option = document.createElement("option");
         option.value = script.id;
         option.textContent = script.title;
-        if (index === 0) {
-          option.selected = true;
-        }
         scriptSelector.append(option);
       });
+
+      if (defaultSelection) {
+        scriptSelector.value = defaultSelection;
+      }
     }
 
     async function loadScripts() {
