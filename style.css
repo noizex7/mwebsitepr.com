@@ -203,6 +203,61 @@ footer h6 {
 	padding: 1rem;
 }
 
+.pythonRunnerContainer {
+	margin-top: 120px;
+	margin-bottom: 60px;
+}
+
+.pythonDescription {
+	margin-bottom: 20px;
+	text-align: center;
+}
+
+.pythonExampleRow {
+	display: flex;
+	gap: 10px;
+	flex-wrap: wrap;
+	align-items: center;
+}
+
+.pythonActions {
+	display: flex;
+	gap: 10px;
+	margin-bottom: 20px;
+	flex-wrap: wrap;
+}
+
+.pythonOutputTitle {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.pythonOutput {
+	background-color: #1f1f1f;
+	color: #f8f9fa;
+	min-height: 220px;
+	border-radius: 0.375rem;
+	padding: 1rem;
+	overflow-y: auto;
+	border: 1px solid #ced4da;
+	font-size: 0.95rem;
+}
+
+.pythonStatus {
+	margin-top: 10px;
+	font-style: italic;
+}
+
+.pythonFooter {
+	padding: 20px 0;
+}
+
+.pythonFooterText {
+	margin: 0;
+	text-align: center;
+	color: #fff;
+}
+
 @keyframes fadeInAnimation {
 	0% {
 		transform: translateX(-100%);

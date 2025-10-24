@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" type="image/x-icon" href="/assets/MWebsiteLogo.png" />
+  <link rel="stylesheet" href="/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="/style.css">
+  <script src="/bootstrap/bootstrap.bundle.min.js"></script>
+  <title>Python Demos | M Portfolio</title>
+</head>
+
+<body class="backgroundLight">
+  <nav class="navbar navbar-expand-lg backgroundLight fixed-top">
+    <div class="container-fluid navbar">
+      <div class="brandAnchor">
+        <a class="navbar-brand" href="/index.html">
+          <img src="/assets/MWebsiteLogo.png" alt="" width="40" height="40" class="align-text-top my-1 brandImage">Portfolio
+        </a>
+      </div>
+      <button class="navbar-toggler navbarToggle" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class=""><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
+            class="bi bi-segmented-nav" viewBox="0 0 16 16">
+            <path
+              d="M0 6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6zm6 3h4V5H6v4zm9-1V6a1 1 0 0 0-1-1h-3v4h3a1 1 0 0 0 1-1z" />
+          </svg></span>
+      </button>
+      <div class="collapse navbar-collapse menu" id="navbarNav">
+        <ul class="navbar-nav navbarCollapse">
+          <li class="nav-item">
+            <a class="nav-link" href="/index.html#greetings">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/index.html#work">Work</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/index.html#aboutMe">About Me</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/index.html#contact">Contact Me</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container pythonRunnerContainer">
+    <div class="row">
+      <div class="col-12">
+        <h1 class="Header">Python Demos</h1>
+        <p class="pythonDescription">Run the showcase Python projects directly in your browser. Input prompts will open
+          as regular dialogs so you can interact with the programs.</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <div class="mb-3">
+          <label class="form-label" for="example-selector">Choose an example to load</label>
+          <div class="pythonExampleRow">
+            <select class="form-select" id="example-selector"></select>
+            <button class="btn btn-dark" id="load-example" type="button">Load Example</button>
+            <a class="btn btn-outline-dark" href="https://replit.com/@noizex7" target="_blank"
+              rel="noopener noreferrer">View on Replit</a>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="python-code">Python code</label>
+          <textarea id="python-code" rows="16" spellcheck="false"></textarea>
+        </div>
+        <div class="pythonActions">
+          <button class="btn btn-dark" id="run-python" type="button">Run</button>
+          <button class="btn btn-outline-dark" id="clear-output" type="button">Clear Output</button>
+        </div>
+        <h2 class="pythonOutputTitle">Program output</h2>
+        <pre id="python-output" class="pythonOutput" aria-live="polite"></pre>
+        <p class="pythonStatus" id="python-status">Loading runtime...</p>
+      </div>
+    </div>
+  </main>
+
+  <footer class="backgroundDark pythonFooter">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <p class="pythonFooterText">Ready for more? Head back to the <a href="/index.html#work">work section</a> to
+            explore every project.</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/pyodide/v0.24.1/full/pyodide.js"></script>
+  <script type="module">
+    const codeEditor = document.getElementById("python-code");
+    const outputElement = document.getElementById("python-output");
+    const statusElement = document.getElementById("python-status");
+    const runButton = document.getElementById("run-python");
+    const clearButton = document.getElementById("clear-output");
+    const exampleSelector = document.getElementById("example-selector");
+    const loadButton = document.getElementById("load-example");
+
+    const examples = {
+      password: {
+        label: "Secure Password Generator",
+        path: "/assets/python/password_generator.py"
+      },
+      hangman: {
+        label: "Hangman Game",
+        path: "/assets/python/hangman.py"
+      },
+      rps: {
+        label: "Rock, Paper, Scissors",
+        path: "/assets/python/rock_paper_scissors.py"
+      }
+    };
+
+    for (const [key, value] of Object.entries(examples)) {
+      const option = document.createElement("option");
+      option.value = key;
+      option.textContent = value.label;
+      exampleSelector.append(option);
+    }
+
+    function sendOutput(text) {
+      outputElement.textContent += text;
+      outputElement.scrollTop = outputElement.scrollHeight;
+    }
+
+    window.sendOutput = sendOutput;
+
+    function requestInput(promptText) {
+      return window.prompt(promptText || "");
+    }
+
+    window.requestInput = requestInput;
+
+    async function fetchExampleText(example) {
+      const response = await fetch(example.path, { cache: "no-cache" });
+      if (!response.ok) {
+        throw new Error(`Failed to load ${example.path} (${response.status})`);
+      }
+      return response.text();
+    }
+
+    let exampleLoadPromise = Promise.resolve();
+
+    async function setEditorExample(key, { announce = false } = {}) {
+      const example = examples[key];
+      if (!example) {
+        return Promise.resolve();
+      }
+      exampleSelector.value = key;
+      outputElement.textContent = "";
+      const loadTask = (async () => {
+        try {
+          const code = await fetchExampleText(example);
+          codeEditor.value = code;
+          if (announce) {
+            sendOutput(`Loaded example: ${example.label}\n`);
+          }
+        } catch (error) {
+          codeEditor.value = "";
+          sendOutput(`Could not load example: ${error.message}\n`);
+          throw error;
+        }
+      })();
+      exampleLoadPromise = loadTask;
+      return loadTask;
+    }
+
+    const params = new URLSearchParams(window.location.search);
+    const requestedExample = params.get("example");
+    const defaultExampleKey = Object.prototype.hasOwnProperty.call(examples, requestedExample)
+      ? requestedExample
+      : "password";
+
+    setEditorExample(defaultExampleKey).catch(() => {});
+
+    loadButton.addEventListener("click", () => {
+      const selected = exampleSelector.value;
+      setEditorExample(selected, { announce: true })
+        .then(() => {
+          const url = new URL(window.location.href);
+          url.searchParams.set("example", selected);
+          window.history.replaceState(null, "", url);
+        })
+        .catch(() => {});
+    });
+
+    clearButton.addEventListener("click", () => {
+      outputElement.textContent = "";
+    });
+
+    let pyodideReadyPromise;
+
+    async function loadRuntime() {
+      statusElement.textContent = "Loading Python runtime...";
+      const pyodide = await loadPyodide();
+      await pyodide.runPython(`
+import sys
+import js
+
+
+class _ConsoleWriter:
+    def write(self, data):
+        js.sendOutput(str(data))
+
+    def flush(self):
+        pass
+
+
+sys.stdout = _ConsoleWriter()
+sys.stderr = _ConsoleWriter()
+
+
+def _browser_input(prompt=""):
+    response = js.requestInput(str(prompt))
+    if response is None:
+        raise EOFError("User cancelled input dialog.")
+    return response
+
+
+__builtins__.input = _browser_input
+`);
+      statusElement.textContent = "Runtime ready. Press Run to execute your code.";
+      return pyodide;
+    }
+
+    async function ensureRuntime() {
+      if (!pyodideReadyPromise) {
+        pyodideReadyPromise = loadRuntime().catch((error) => {
+          statusElement.textContent = "Could not load Python runtime.";
+          sendOutput(`Runtime error: ${error}\n`);
+          throw error;
+        });
+      }
+      return pyodideReadyPromise;
+    }
+
+    runButton.addEventListener("click", async () => {
+      await exampleLoadPromise.catch(() => {});
+      const pyodide = await ensureRuntime();
+      const code = codeEditor.value;
+      try {
+        await pyodide.runPythonAsync(code);
+      } catch (error) {
+        sendOutput(`${error}\n`);
+      }
+    });
+
+    ensureRuntime();
+  </script>
+</body>
+
+</html>
