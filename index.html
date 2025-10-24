@@ -292,22 +292,24 @@
               href="mailto:admin@mwebsitepr.com">admin@mwebsitepr.com</a></h3>
           <div>
             <h3 class="sendEmail">Or you can drop a mail here!</h3>
-            <form>
+            <form id="contactForm" novalidate>
               <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Email address</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                <label for="contactEmail" class="form-label">Email address</label>
+                <input type="email" class="form-control" id="contactEmail" name="email" aria-describedby="emailHelp"
+                  required>
                 <div id="emailHelp" class="form-text">I'll never share your email with anyone else.</div>
               </div>
               <div class="mb-3">
-                <label for="exampleInputName" class="form-label">Name</label>
-                <input type="name" class="form-control" id="exampleName">
+                <label for="contactName" class="form-label">Name</label>
+                <input type="text" class="form-control" id="contactName" name="name" required>
               </div>
               <div class="mb-3">
-                <label for="exampleInputMessage" class="form-label">Message</label>
+                <label for="contactMessage" class="form-label">Message</label>
                 <br>
-                <textarea name="Message" id="Message" cols="30" rows="10"></textarea>
+                <textarea class="form-control" name="message" id="contactMessage" rows="5" required></textarea>
               </div>
               <button type="submit" class="btn btn-dark submitBtn">Submit</button>
+              <div id="contactFeedback" class="alert mt-3 d-none" role="alert"></div>
             </form>
           </div>
         </div>
@@ -321,6 +323,63 @@
 
   <script src="/scrollmagic/ScrollMagic.min.js"></script>
   <script src="/scrollmagicAnimations.js"> </script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const form = document.getElementById("contactForm");
+      if (!form) {
+        return;
+      }
+
+      const feedback = document.getElementById("contactFeedback");
+      const submitBtn = form.querySelector(".submitBtn");
+
+      const showFeedback = (message, variant) => {
+        if (!feedback) {
+          return;
+        }
+        feedback.textContent = message;
+        feedback.classList.remove("d-none", "alert-success", "alert-danger", "alert-info");
+        feedback.classList.add(`alert-${variant}`);
+      };
+
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const payload = {
+          email: form.email.value.trim(),
+          name: form.name.value.trim(),
+          message: form.message.value.trim(),
+        };
+
+        if (!payload.email || !payload.name || !payload.message) {
+          showFeedback("Please complete all fields before submitting.", "danger");
+          return;
+        }
+
+        submitBtn.disabled = true;
+        showFeedback("Sending your message…", "info");
+
+        try {
+          const response = await fetch("/api/contact", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          });
+
+          if (!response.ok) {
+            const errorBody = await response.json().catch(() => ({}));
+            throw new Error(errorBody.detail || "Unable to send your message. Please try again later.");
+          }
+
+          form.reset();
+          showFeedback("Thanks! Your message is on its way.", "success");
+        } catch (error) {
+          showFeedback(error.message, "danger");
+        } finally {
+          submitBtn.disabled = false;
+        }
+      });
+    });
+  </script>
 
 </body>
 

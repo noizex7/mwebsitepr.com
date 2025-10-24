@@ -1,18 +1,23 @@
 import asyncio
 import contextlib
 import json
+import logging
 import os
+import smtplib
+import ssl
 import sys
 from asyncio.subprocess import Process
+from email.message import EmailMessage
 from pathlib import Path
 from typing import Dict, Optional
 
 from fastapi import FastAPI, HTTPException, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr, Field
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 SCRIPTS_DIR = BASE_DIR / "scripts"
+logger = logging.getLogger("mwebsite.backend")
 
 
 def _load_scripts() -> Dict[str, Dict[str, str]]:
@@ -32,6 +37,111 @@ SCRIPTS = _load_scripts()
 class ScriptSummary(BaseModel):
     id: str
     title: str
+
+
+def _env_bool(name: str, default: bool = False) -> bool:
+    value = os.getenv(name)
+    if value is None:
+        return default
+    return value.strip().lower() in {"1", "true", "yes", "on"}
+
+
+CONTACT_EMAIL_TO = [
+    email.strip()
+    for email in os.getenv("CONTACT_EMAIL_TO", "").split(",")
+    if email.strip()
+]
+EMAIL_SUBJECT_PREFIX = os.getenv("CONTACT_EMAIL_SUBJECT_PREFIX", "[Portfolio Contact]")
+SMTP_HOST = os.getenv("SMTP_HOST", "").strip()
+SMTP_USERNAME = os.getenv("SMTP_USERNAME", "").strip()
+SMTP_PASSWORD = os.getenv("SMTP_PASSWORD", "")
+SMTP_USE_SSL = _env_bool("SMTP_USE_SSL", False)
+SMTP_USE_TLS = _env_bool("SMTP_USE_TLS", not SMTP_USE_SSL)
+CONTACT_EMAIL_FROM = os.getenv("CONTACT_EMAIL_FROM", "").strip()
+if not CONTACT_EMAIL_FROM:
+    if SMTP_USERNAME:
+        CONTACT_EMAIL_FROM = SMTP_USERNAME
+    elif CONTACT_EMAIL_TO:
+        CONTACT_EMAIL_FROM = CONTACT_EMAIL_TO[0]
+try:
+    SMTP_PORT = int(
+        os.getenv(
+            "SMTP_PORT",
+            "465" if SMTP_USE_SSL else "587" if SMTP_USE_TLS else "25",
+        )
+    )
+except ValueError:
+    SMTP_PORT = 465 if SMTP_USE_SSL else 587 if SMTP_USE_TLS else 25
+
+
+class EmailConfigurationError(RuntimeError):
+    """Raised when the email service is not fully configured."""
+
+
+class ContactRequest(BaseModel):
+    email: EmailStr
+    name: str = Field(min_length=1, max_length=100)
+    message: str = Field(min_length=1, max_length=4000)
+
+
+def _validate_email_configuration() -> None:
+    missing = []
+    if not CONTACT_EMAIL_TO:
+        missing.append("CONTACT_EMAIL_TO")
+    if not CONTACT_EMAIL_FROM:
+        missing.append("CONTACT_EMAIL_FROM")
+    if not SMTP_HOST:
+        missing.append("SMTP_HOST")
+    if SMTP_USERNAME and not SMTP_PASSWORD:
+        missing.append("SMTP_PASSWORD")
+    if missing:
+        raise EmailConfigurationError(
+            f"Missing email configuration values: {', '.join(missing)}"
+        )
+
+
+def _send_contact_email(contact: ContactRequest) -> None:
+    _validate_email_configuration()
+
+    message = EmailMessage()
+    subject_name = contact.name.strip() or "Unknown sender"
+    message["Subject"] = f"{EMAIL_SUBJECT_PREFIX.strip()} - {subject_name}"
+    message["From"] = CONTACT_EMAIL_FROM
+    message["To"] = ", ".join(CONTACT_EMAIL_TO)
+    message["Reply-To"] = contact.email
+
+    body_lines = [
+        f"Name: {contact.name}",
+        f"Email: {contact.email}",
+        "",
+        "Message:",
+        contact.message,
+    ]
+    message.set_content("\n".join(body_lines))
+
+    context = ssl.create_default_context()
+    try:
+        if SMTP_USE_SSL:
+            with smtplib.SMTP_SSL(SMTP_HOST, SMTP_PORT, context=context) as smtp:
+                if SMTP_USERNAME:
+                    smtp.login(SMTP_USERNAME, SMTP_PASSWORD)
+                smtp.send_message(message)
+        else:
+            with smtplib.SMTP(SMTP_HOST, SMTP_PORT, timeout=20) as smtp:
+                if SMTP_USE_TLS:
+                    smtp.starttls(context=context)
+                if SMTP_USERNAME:
+                    smtp.login(SMTP_USERNAME, SMTP_PASSWORD)
+                smtp.send_message(message)
+    except EmailConfigurationError:
+        raise
+    except Exception as exc:
+        logger.exception("Unable to send contact email")
+        raise RuntimeError("Failed to send email") from exc
+
+
+async def _send_contact_email_async(contact: ContactRequest) -> None:
+    await asyncio.to_thread(_send_contact_email, contact)
 
 
 app = FastAPI(title="Python Showcase Runner")
@@ -55,6 +165,22 @@ async def list_scripts() -> list[ScriptSummary]:
         ScriptSummary(id=data["id"], title=data["title"])
         for data in SCRIPTS.values()
     ]
+
+
+@app.post("/api/contact")
+async def submit_contact(contact: ContactRequest) -> dict[str, str]:
+    try:
+        await _send_contact_email_async(contact)
+    except EmailConfigurationError as exc:
+        logger.warning("Contact form email configuration error: %s", exc)
+        raise HTTPException(
+            status_code=503, detail="Contact form email service is not configured."
+        ) from exc
+    except RuntimeError as exc:
+        raise HTTPException(
+            status_code=500, detail="Unable to send message at this time."
+        ) from exc
+    return {"status": "sent"}
 
 
 class ScriptRunner:
