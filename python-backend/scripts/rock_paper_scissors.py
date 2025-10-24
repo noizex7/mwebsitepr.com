@@ -1,49 +1,74 @@
-"""Challenge the computer to Rock, Paper, Scissors."""
 import random
 
-MOVES = ["rock", "paper", "scissors"]
-BEATS = {"rock": "scissors", "paper": "rock", "scissors": "paper"}
+logo = '''
+                _                                                 _                        
+               | |                                               (_)                        
+ _ __ ___   ___| | __   _ __   __ _ _ __   ___ _ __    ___  ___ _ ___ ___  ___  _ __ ___     __ _  __ _ _ __ ___   ___
+| '__/ _ \ / __| |/ /  | '_ \ / _` | '_ \ / _ \ '__|  / __|/ __| / __/ __|/ _ \| '__/ __|   / _` |/ _` | '_ ` _ \ / _ \ 
+| | | (_) | (__|   <   | |_) | (_| | |_) |  __/ |     \__ \ (__| \__ \__ \ (_) | |  \__ \  | (_| | (_| | | | | | |  __/
+|_|  \___/ \___|_|\_|  | .__/ \__,_| .__/ \___|_|     |___/\___|_|___/___/\___/|_|  |___/   \__, |\__,_|_| |_| |_|\___|
+                       | |         | |                                                      |___/                      
+                       |_|         |_|              
+ 
+'''
 
+rock = '''
+    _______
+---'   ____)
+      (_____)
+      (_____)
+      (____)
+---.__(___)
+'''
 
-def ask_player():
-    choice = input("Choose rock, paper, or scissors: ").strip().lower()
-    if choice not in MOVES:
-        raise ValueError("Please choose rock, paper, or scissors.")
-    return choice
+paper = '''
+    _______
+---'   ____)____
+          ______)
+          _______)
+         _______)
+---.__________)
+'''
 
+scissors = '''
+    _______
+---'   ____)____
+          ______)
+       __________)
+      (____)
+---.__(___)
+'''
 
-def main():
-    print("Rock, Paper, Scissors")
-    rounds = int(input("How many rounds? (default 3) ") or "3")
-    player_score = 0
-    computer_score = 0
+# Write your code below this line 👇
+print(logo)
 
-    for number in range(1, rounds + 1):
-        print(f"\nRound {number}")
-        try:
-            player_move = ask_player()
-        except ValueError as exc:
-            print(exc)
-            continue
-        computer_move = random.choice(MOVES)
-        print("Computer picked:", computer_move)
-        if player_move == computer_move:
-            print("Tie round.")
-        elif BEATS[player_move] == computer_move:
-            print("You win the round!")
-            player_score += 1
-        else:
-            print("Computer wins the round.")
-            computer_score += 1
+shapes = [rock, paper, scissors]
 
-    print("\nFinal score - You:", player_score, "Computer:", computer_score)
-    if player_score > computer_score:
-        print("Congratulations, you win!")
-    elif player_score < computer_score:
-        print("Computer takes the match. Try again!")
+while True:
+    choice = input("Enter 0 for rock, 1 for paper, 2 for scissors or q for quit: ")
+
+    if not choice.isdigit():
+        if choice == 'q':
+            exit()
+        print("Please enter a NUMBER (0, 1, or 2). Try again!\n")
+        continue                   
+
+    choice = int(choice)
+
+    if choice not in (0, 1, 2):
+        print("Number must be 0, 1, or 2. Try again!\n")
+        continue
+
+    computer = random.randint(0, 2)
+
+    print(shapes[choice])
+    print("Computer chose:\n" + shapes[computer])
+
+    if choice == computer:
+        print("It's a draw!\n")
+    elif (choice == 0 and computer == 2) or \
+         (choice == 1 and computer == 0) or \
+         (choice == 2 and computer == 1):
+        print("You win!\n")
     else:
-        print("It's a tie overall.")
-
-
-if __name__ == "__main__":
-    main()
+        print("You lose.\n")
