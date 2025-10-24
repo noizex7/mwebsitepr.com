@@ -1,10 +1,10 @@
-version: "1"
-
 services:
   mwebsite:
     build: /home/noize/mwebsitepr.com/
     volumes:    
       - /home/noize/mwebsitepr.com:/usr/share/nginx/html
+    labels:
+      - "com.centurylinklabs.watchtower.enable=false"
     ports:
       - "9005:80"
     restart: unless-stopped

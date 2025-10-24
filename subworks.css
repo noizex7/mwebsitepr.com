@@ -63,8 +63,4 @@ section div {
 	section {
 		flex-direction: column;
 	}
-
-	.marginForCardinal {
-		margin: 100px;
-	}
 }
