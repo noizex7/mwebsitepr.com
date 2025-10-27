@@ -114,27 +114,36 @@
                   <h5 class="modal-title" id="exampleModalLabel">Micro Interfacing</h5>
                 </div>
                 <div class="modal-body">
-                  <a target="_blank" style="text-decoration: none;" href="/assets/MicroInterfacing/Lab1.pdf">
-                    <button type="button" class="btn btn-dark">Laboratory 1</button>
-                  </a>
-                  <a target="_blank" style="text-decoration: none;" href="/assets/MicroInterfacing/Lab2.pdf">
-                    <button type="button" class="btn btn-dark">Laboratory 2</button>
-                  </a>
-                  <a target="_blank" style="text-decoration: none;" href="/assets/MicroInterfacing/Lab3.pdf">
-                    <button type="button" class="btn btn-dark">Laboratory 3</button>
-                  </a>
-                  <a target="_blank" style="text-decoration: none;" href="/assets/MicroInterfacing/Lab4.pdf">
-                    <button type="button" class="btn btn-dark">Laboratory 4</button>
-                  </a>
-                  <a target="_blank" style="text-decoration: none;" href="/assets/MicroInterfacing/Lab5.pdf">
-                    <button type="button" class="btn btn-dark">Laboratory 5</button>
-                  </a>
-                  <a target="_blank" style="text-decoration: none;" href="/assets/MicroInterfacing/Lab6.pdf">
-                    <button type="button" class="btn btn-dark">Laboratory 6</button>
-                  </a>
-                  <a target="_blank" style="text-decoration: none;" href="/assets/MicroInterfacing/Lab7.pdf">
-                    <button type="button" class="btn btn-dark">Laboratory 7</button>
-                  </a>
+                  <div class="d-grid gap-2">
+                    <button type="button" class="btn btn-dark micro-pdf-link" data-pdf="/assets/MicroInterfacing/Lab1.pdf"
+                      data-title="Laboratory 1">
+                      Laboratory 1
+                    </button>
+                    <button type="button" class="btn btn-dark micro-pdf-link" data-pdf="/assets/MicroInterfacing/Lab2.pdf"
+                      data-title="Laboratory 2">
+                      Laboratory 2
+                    </button>
+                    <button type="button" class="btn btn-dark micro-pdf-link" data-pdf="/assets/MicroInterfacing/Lab3.pdf"
+                      data-title="Laboratory 3">
+                      Laboratory 3
+                    </button>
+                    <button type="button" class="btn btn-dark micro-pdf-link" data-pdf="/assets/MicroInterfacing/Lab4.pdf"
+                      data-title="Laboratory 4">
+                      Laboratory 4
+                    </button>
+                    <button type="button" class="btn btn-dark micro-pdf-link" data-pdf="/assets/MicroInterfacing/Lab5.pdf"
+                      data-title="Laboratory 5">
+                      Laboratory 5
+                    </button>
+                    <button type="button" class="btn btn-dark micro-pdf-link" data-pdf="/assets/MicroInterfacing/Lab6.pdf"
+                      data-title="Laboratory 6">
+                      Laboratory 6
+                    </button>
+                    <button type="button" class="btn btn-dark micro-pdf-link" data-pdf="/assets/MicroInterfacing/Lab7.pdf"
+                      data-title="Laboratory 7">
+                      Laboratory 7
+                    </button>
+                  </div>
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
@@ -152,6 +161,25 @@
       </div>
     </div>
   </section>
+
+  <div class="modal fade" id="pdfViewerModal" tabindex="-1" aria-labelledby="pdfViewerModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="pdfViewerModalLabel">Micro Interfacing PDF</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <iframe id="microPdfViewer" class="w-100" style="min-height: 75vh;" title="Micro Interfacing PDF preview"
+            loading="lazy"></iframe>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <section>
     <div class="container-fluid backgroundDark">
       <div class="row paddingBottom">
@@ -164,8 +192,11 @@
             developer. With knowledge of HTML, CSS, Javascript, Bootstrap 5, and ScrollMagic as you can see. I know
             other languages such as Python, Java, C++, SQL, NoSQL (Mongo DB), Assembly, VHDL and React.
           </p>
-          <center><a href="/assets/English resume.pdf" target="_blank"><button class="btn btn-dark">Get My Resume
-                Here</button></a>
+          <center>
+            <button type="button" class="btn btn-dark resume-pdf-link" data-pdf="/assets/English resume.pdf"
+              data-title="Resume">
+              Get My Resume Here
+            </button>
           </center>
         </div>
         <div class="col-lg-1 col-sm-2">
@@ -325,6 +356,89 @@
   <script src="/scrollmagicAnimations.js"> </script>
   <script>
     document.addEventListener("DOMContentLoaded", () => {
+      const microModal = document.getElementById("MicroInterfacingModal");
+      const pdfModalElement = document.getElementById("pdfViewerModal");
+      const pdfTitleElement = document.getElementById("pdfViewerModalLabel");
+      const pdfViewer = document.getElementById("microPdfViewer");
+      const microButtons = microModal ? microModal.querySelectorAll(".micro-pdf-link") : [];
+      const resumeButton = document.querySelector(".resume-pdf-link");
+      let reopenModal = null;
+
+      if (pdfModalElement && pdfViewer && window.bootstrap && window.bootstrap.Modal) {
+        const pdfModal = new bootstrap.Modal(pdfModalElement);
+
+        const openPdfModal = (pdf, title) => {
+          if (!pdf) {
+            return;
+          }
+          pdfViewer.src = pdf;
+          if (pdfTitleElement) {
+            pdfTitleElement.textContent = title || "Document Viewer";
+          }
+          pdfModal.show();
+        };
+
+        pdfModalElement.addEventListener("hidden.bs.modal", () => {
+          pdfViewer.src = "";
+          if (reopenModal) {
+            const instance = bootstrap.Modal.getOrCreateInstance(reopenModal);
+            instance.show();
+          }
+          reopenModal = null;
+        });
+
+        if (microButtons.length && microModal) {
+          const clearActive = () => {
+            microButtons.forEach((button) => {
+              button.classList.remove("active");
+              button.setAttribute("aria-pressed", "false");
+            });
+          };
+
+          microButtons.forEach((button) => {
+            button.setAttribute("aria-pressed", "false");
+            button.addEventListener("click", () => {
+              const pdf = button.dataset.pdf;
+              if (!pdf) {
+                return;
+              }
+
+              const title = button.dataset.title || button.textContent.trim();
+              clearActive();
+              button.classList.add("active");
+              button.setAttribute("aria-pressed", "true");
+
+              reopenModal = microModal;
+              const microInstance = bootstrap.Modal.getInstance(microModal);
+
+              const handleMicroHidden = () => {
+                microModal.removeEventListener("hidden.bs.modal", handleMicroHidden);
+                openPdfModal(pdf, title);
+              };
+
+              if (microInstance) {
+                microModal.addEventListener("hidden.bs.modal", handleMicroHidden);
+                microInstance.hide();
+              } else {
+                openPdfModal(pdf, title);
+              }
+            });
+          });
+        }
+
+        if (resumeButton) {
+          resumeButton.addEventListener("click", () => {
+            const pdf = resumeButton.dataset.pdf;
+            if (!pdf) {
+              return;
+            }
+            const title = resumeButton.dataset.title || resumeButton.textContent.trim();
+            reopenModal = null;
+            openPdfModal(pdf, title);
+          });
+        }
+      }
+
       const form = document.getElementById("contactForm");
       if (!form) {
         return;

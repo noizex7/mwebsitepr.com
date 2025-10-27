@@ -29,14 +29,42 @@
   </section>
   <section>
     <div class="flexSpaceEvenly">
-        <a class="btn btn-dark" href="/assets/CardinalDashboards/SRS-RealStone-Version Final.pdf">System Requirements Specifications</a>
-        <a class="btn btn-dark" href="/assets/CardinalDashboards/SDDRealStoneSolutions.pdf">Software Design Description</a>
-        <a class="btn btn-dark" href="/assets/CardinalDashboards/STD Real Stone Solutions v1.pdf">Software Test Description</a>
-        <a class="btn btn-dark" href="/assets/CardinalDashboards/SPMP_ Real Stone Solution final.pdf">Software Project Management Plan</a>
-        <a class="btn btn-dark" href="/assets/CardinalDashboards/RealStoneSolutionPosterNewVersion.pdf">Poster</a>
-        <a class="btn btn-dark" href="/assets/CardinalDashboards/Progress Report.pdf">Progress Report</a>
-        <a class="btn btn-dark" href="/assets/CardinalDashboards/Test Execution Report.pdf">Test Execution Report</a>
-        <a class="btn btn-dark" href="/assets/CardinalDashboards/User Manual.pdf">User Manual</a>
+      <button type="button" class="btn btn-dark pdf-viewer-trigger"
+        data-pdf="/assets/CardinalDashboards/SRS-RealStone-Version Final.pdf"
+        data-title="System Requirements Specifications">
+        System Requirements Specifications
+      </button>
+      <button type="button" class="btn btn-dark pdf-viewer-trigger"
+        data-pdf="/assets/CardinalDashboards/SDDRealStoneSolutions.pdf"
+        data-title="Software Design Description">
+        Software Design Description
+      </button>
+      <button type="button" class="btn btn-dark pdf-viewer-trigger"
+        data-pdf="/assets/CardinalDashboards/STD Real Stone Solutions v1.pdf"
+        data-title="Software Test Description">
+        Software Test Description
+      </button>
+      <button type="button" class="btn btn-dark pdf-viewer-trigger"
+        data-pdf="/assets/CardinalDashboards/SPMP_ Real Stone Solution final.pdf"
+        data-title="Software Project Management Plan">
+        Software Project Management Plan
+      </button>
+      <button type="button" class="btn btn-dark pdf-viewer-trigger"
+        data-pdf="/assets/CardinalDashboards/RealStoneSolutionPosterNewVersion.pdf" data-title="Poster">
+        Poster
+      </button>
+      <button type="button" class="btn btn-dark pdf-viewer-trigger"
+        data-pdf="/assets/CardinalDashboards/Progress Report.pdf" data-title="Progress Report">
+        Progress Report
+      </button>
+      <button type="button" class="btn btn-dark pdf-viewer-trigger"
+        data-pdf="/assets/CardinalDashboards/Test Execution Report.pdf" data-title="Test Execution Report">
+        Test Execution Report
+      </button>
+      <button type="button" class="btn btn-dark pdf-viewer-trigger"
+        data-pdf="/assets/CardinalDashboards/User Manual.pdf" data-title="User Manual">
+        User Manual
+      </button>
     </div>
   </section>
   <section class="mt-5 mb-5">
@@ -49,6 +77,64 @@
       <img class="border" src="/assets/CardinalDashboards/Sprint Overview.png" alt="">
     </div>
   </section>
+
+  <div class="modal fade" id="pdfViewerModal" tabindex="-1" aria-labelledby="pdfViewerModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="pdfViewerModalLabel">Document Viewer</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <iframe id="sharedPdfViewer" class="w-100" style="min-height: 75vh;" title="PDF preview" loading="lazy"></iframe>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const pdfModalElement = document.getElementById("pdfViewerModal");
+      const pdfViewer = document.getElementById("sharedPdfViewer");
+      const pdfTitleElement = document.getElementById("pdfViewerModalLabel");
+      const triggers = document.querySelectorAll(".pdf-viewer-trigger");
+
+      if (!pdfModalElement || !pdfViewer || !window.bootstrap || !window.bootstrap.Modal) {
+        return;
+      }
+
+      const pdfModal = new bootstrap.Modal(pdfModalElement);
+
+      const openPdfModal = (pdf, title) => {
+        if (!pdf) {
+          return;
+        }
+        pdfViewer.src = pdf;
+        if (pdfTitleElement) {
+          pdfTitleElement.textContent = title || "Document Viewer";
+        }
+        pdfModal.show();
+      };
+
+      triggers.forEach((button) => {
+        button.addEventListener("click", () => {
+          const pdf = button.dataset.pdf;
+          if (!pdf) {
+            return;
+          }
+          const title = button.dataset.title || button.textContent.trim();
+          openPdfModal(pdf, title);
+        });
+      });
+
+      pdfModalElement.addEventListener("hidden.bs.modal", () => {
+        pdfViewer.src = "";
+      });
+    });
+  </script>
 </body>
 
 </html>
