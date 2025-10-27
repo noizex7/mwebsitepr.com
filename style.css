@@ -159,13 +159,30 @@ body {
 	/* margin: 50px; */
 }
 
-.groguSvg {
-	opacity: 0;
-	transition: all 1s ease;
+.about-me-section {
+	overflow: hidden;
 }
 
-.groguSvg.fadeOutAnimation {
+.groguSvg {
+	opacity: 0;
+	transform: translateX(160px);
+	transition: opacity 0.9s ease-out, transform 0.9s ease-out;
+	width: 100%;
+	max-width: 220px;
+	max-height: 360px;
+	height: auto;
+}
+
+.groguSvg.slideInFromRight {
 	opacity: 1;
+	transform: translateX(0);
+}
+
+@media (max-width: 992px) {
+	.groguSvg {
+		margin-top: 2rem;
+		max-width: 180px;
+	}
 }
 
 .sendEmail {
