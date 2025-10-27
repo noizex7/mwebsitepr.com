@@ -163,17 +163,21 @@
   </section>
 
   <div class="modal fade" id="pdfViewerModal" tabindex="-1" aria-labelledby="pdfViewerModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable modal-fullscreen-sm-down">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="pdfViewerModalLabel">Micro Interfacing PDF</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <iframe id="microPdfViewer" class="w-100" style="min-height: 75vh;" title="Micro Interfacing PDF preview"
-            loading="lazy"></iframe>
+          <iframe id="microPdfViewer" class="pdf-viewer-frame" title="Micro Interfacing PDF preview" loading="lazy">
+          </iframe>
         </div>
         <div class="modal-footer">
+          <a id="pdfViewerOpenOriginal" class="btn btn-outline-dark me-auto disabled" href="#" target="_blank"
+            rel="noopener" aria-disabled="true" tabindex="-1">
+            Open in new tab
+          </a>
           <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
         </div>
       </div>
@@ -362,6 +366,7 @@
       const pdfViewer = document.getElementById("microPdfViewer");
       const microButtons = microModal ? microModal.querySelectorAll(".micro-pdf-link") : [];
       const resumeButton = document.querySelector(".resume-pdf-link");
+      const pdfExternalLink = document.getElementById("pdfViewerOpenOriginal");
       let reopenModal = null;
 
       if (pdfModalElement && pdfViewer && window.bootstrap && window.bootstrap.Modal) {
@@ -375,11 +380,21 @@
           if (pdfTitleElement) {
             pdfTitleElement.textContent = title || "Document Viewer";
           }
+          if (pdfExternalLink) {
+            pdfExternalLink.href = pdf;
+            pdfExternalLink.classList.remove("disabled");
+            pdfExternalLink.setAttribute("aria-disabled", "false");
+          }
           pdfModal.show();
         };
 
         pdfModalElement.addEventListener("hidden.bs.modal", () => {
           pdfViewer.src = "";
+          if (pdfExternalLink) {
+            pdfExternalLink.href = "#";
+            pdfExternalLink.classList.add("disabled");
+            pdfExternalLink.setAttribute("aria-disabled", "true");
+          }
           if (reopenModal) {
             const instance = bootstrap.Modal.getOrCreateInstance(reopenModal);
             instance.show();

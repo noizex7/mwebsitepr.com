@@ -197,6 +197,22 @@ textarea {
 	margin: auto;
 }
 
+.pdf-viewer-frame {
+	width: 100%;
+	min-height: 75vh;
+	height: 75vh;
+	border: 0;
+	display: block;
+	background-color: #fff;
+}
+
+@media (max-width: 576px) {
+	.pdf-viewer-frame {
+		min-height: 85vh;
+		height: 85vh;
+	}
+}
+
 footer h6 {
 	text-align: center;
 	margin: 0;
