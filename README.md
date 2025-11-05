@@ -1,6 +1,6 @@
 # mwebsitepr.com
 
-Modern portfolio site for showcasing MWebsite projects, delivered as a static front end served by nginx with a FastAPI backend that powers contact handling and interactive demos. This repository mirrors the stack deployed on `mwebsitepr.com` and is optimized for Portainer + Traefik environments.
+Modern portfolio site for showcasing MWebsite projects, delivered as a static front end served by nginx with a FastAPI backend that powers contact handling and interactive demos. 
 
 ## Project Highlights
 - Static HTML/CSS frontend with ScrollMagic-driven animations and Bootstrap assets.
