@@ -37,7 +37,7 @@ services:
       - traefik.http.routers.mwebsitepr-https.tls=true
       - traefik.http.routers.mwebsitepr-https.tls.certresolver=${CERTRESOLVER}
       - traefik.http.routers.mwebsitepr-https.middlewares=${MIDDLEWARE}
-    python-backend:
+  python-backend:
     image: mwebsite-backend:latest    # build this from mwebsitepr.com/python-backend
     build: ./python-backend
     volumes:
