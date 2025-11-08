@@ -100,7 +100,7 @@ def main():
     print("Type 'help' to see commands.\n")
 
     while True:
-        raw = ask("cmd> ").lower()
+        raw = ask("cmd> \n").lower()
 
         if raw in ("quit", "exit"):
             print("Bye!")
@@ -131,11 +131,11 @@ def main():
         label_amount, label_from, label_to = MODES[mode]["labels"]
 
         try:
-            value_str = ask(f"Enter {label_amount}: ")
+            value_str = ask(f"Enter {label_amount}: \n")
             value = parse_float(value_str)
 
-            from_u = ask(f"Enter {label_from}: ")
-            to_u = ask(f"Enter {label_to}: ")
+            from_u = ask(f"Enter {label_from}: \n")
+            to_u = ask(f"Enter {label_to}: \n")
 
             # Normalize symbols/codes using your existing normalize()
             from_std = normalize(from_u, mode)
