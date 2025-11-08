@@ -1,0 +1,67 @@
+
+{
+  "length": {
+    "m": ["m", "mt", "mts", "meter", "metros"],
+    "km": ["km", "kms", "kilometer", "kilometro", "kilómetros"],
+    "cm": ["cm", "centimeter", "centimetro", "centímetros"],
+    "ft": ["ft", "feet", "pie", "pies"],
+    "in": ["in", "inch", "inches", "pulgada", "pulgadas"],
+    "mi": ["mi", "mile", "miles", "milla", "millas"]
+  },
+  "volume": {
+    "l": ["l", "lt", "lts", "liter", "litre", "litro", "litros", "liters"],
+    "ml": ["ml", "mlt", "mlts", "mililiter", "mililitre", "mililitro", "mililitros", "mililiters"],
+    "m3": ["m3", "m^3", "m³", "metro cubico", "metros cubicos", "cubic meter", "cubic meters"],
+    "dm3": ["dm3", "dm^3", "dm³", "decimetro cubico", "decimetros cubicos", "cubic decimeter", "cubic decimeters", "litro", "litros", "liter", "litre"],
+    "cm3": ["cm3", "cm^3", "cm³", "centimetro cubico", "centimetros cubicos", "cubic centimeter", "cubic centimeters", "cc"]
+  },
+  "mass": {
+    "g": ["g", "gr", "gram", "grams", "gramo", "gramos"],
+    "kg": ["kg", "kgs", "kilogram", "kilograms", "kilogramo", "kilogramos"],
+    "t": ["t", "tn", "ton", "tons", "tonne", "tonnes", "tonelada", "toneladas"],
+    "dag": ["dag", "decagram", "decagrams", "decagramo", "decagramos"],
+    "hg": ["hg", "hectogram", "hectograms", "hectogramo", "hectogramos"],
+    "dg": ["dg", "decigram", "decigrams", "decigramo", "decigramos"],
+    "cg": ["cg", "centigram", "centigrams", "centigramo", "centigramos"],
+    "mg": ["mg", "milligram", "milligrams", "miligramo", "miligramos"]
+  },
+  "temp": {
+    "C": ["c", "°c", "celsius", "centigrade", "grado celsius", "grados celsius", "grado centígrado", "grados centígrados"],
+    "K": ["k", "kelvin", "kelvins"],
+    "F": ["f", "°f", "fahrenheit", "grado fahrenheit", "grados fahrenheit"]
+  },
+  "currency": {
+    "USD": ["usd", "us$", "$", "dolar", "dólar", "dolares", "dólares", "dollar", "dollars", "u$s"],
+    "EUR": ["eur", "€", "euro", "euros"],
+    "GBP": ["gbp", "£", "libra", "libras", "pound", "pounds"],
+    "JPY": ["jpy", "¥", "yen", "yens"],
+    "AUD": ["aud", "a$", "aud$", "dolar australiano", "australian dollar"],
+    "CAD": ["cad", "c$", "can$", "dolar canadiense", "canadian dollar"],
+    "CHF": ["chf", "fr", "franco", "francos", "swiss franc"],
+    "CNY": ["cny", "¥", "yuan", "renminbi", "rmb"],
+    "SEK": ["sek", "kr", "krona sueca", "swedish krona"],
+    "NZD": ["nzd", "nz$", "dolar neozelandes", "new zealand dollar"],
+    "MXN": ["mxn", "mex$", "peso", "pesos", "peso mexicano", "mexican peso"],
+    "SGD": ["sgd", "s$", "dolar singapur", "singapore dollar"],
+    "HKD": ["hkd", "hk$", "dolar hong kong", "hong kong dollar"],
+    "NOK": ["nok", "kr", "krona noruega", "norwegian krone"],
+    "KRW": ["krw", "₩", "won", "wons", "won surcoreano", "south korean won"],
+    "TRY": ["try", "₺", "lira", "liras", "turkish lira"],
+    "INR": ["inr", "₹", "rupia", "rupias", "rupee", "rupees"],
+    "BRL": ["brl", "r$", "real", "reales"],
+    "ZAR": ["zar", "r", "rand", "rands"],
+    "DKK": ["dkk", "kr", "krona danesa", "danish krone"],
+    "PLN": ["pln", "zł", "zl", "zloty", "zlotys"],
+    "MYR": ["myr", "rm", "ringgit", "ringgits"],
+    "IDR": ["idr", "rp", "rupiah", "rupia indonesia"],
+    "CZK": ["czk", "kč", "kc", "corona checa", "czech koruna"],
+    "HUF": ["huf", "ft", "forint"],
+    "ILS": ["ils", "₪", "shekel", "shekels", "shequel", "sheqels", "nis"],
+    "PHP": ["php", "₱", "peso filipino", "philippine peso"],
+    "RON": ["ron", "leu", "lei", "leu rumano", "romanian leu"],
+    "BGN": ["bgn", "lev", "leva", "bulgarian lev"],
+    "ISK": ["isk", "kr", "krona islandesa", "icelandic krona"],
+    "THB": ["thb", "฿", "baht"]
+  }
+}
+
