@@ -24,19 +24,23 @@ services:
       - traefik.docker.network=proxy
 
       # Optional: redirect HTTP -> HTTPS on the host
-      - traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https
+#      - traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https
 
       # HTTP router (only for redirect)
       - traefik.http.routers.mwebsitepr-http.rule=${RULE}
       - traefik.http.routers.mwebsitepr-http.entrypoints=${HTTP_ENTRYPOINT}
       - traefik.http.routers.mwebsitepr-http.middlewares=redirect-to-https
+      - traefik.http.routers.mwebsitepr-http.tls=true
+      - traefik.http.routers.mwebsitepr-http.tls.certresolver=${CERTRESOLVER}
+      - traefik.http.routers.mwebsitepr-http.middlewares=${MIDDLEWARE}
+
 
       # HTTPS router (actual traffic)
-      - traefik.http.routers.mwebsitepr-https.rule=${RULE}
-      - traefik.http.routers.mwebsitepr-https.entrypoints=${HTTPS_ENTRYPOINT}
-      - traefik.http.routers.mwebsitepr-https.tls=true
-      - traefik.http.routers.mwebsitepr-https.tls.certresolver=${CERTRESOLVER}
-      - traefik.http.routers.mwebsitepr-https.middlewares=${MIDDLEWARE}
+ #     - traefik.http.routers.mwebsitepr-https.rule=${RULE}
+ #     - traefik.http.routers.mwebsitepr-https.entrypoints=${HTTPS_ENTRYPOINT}
+  #    - traefik.http.routers.mwebsitepr-https.tls=true
+   #   - traefik.http.routers.mwebsitepr-https.tls.certresolver=${CERTRESOLVER}
+    #  - traefik.http.routers.mwebsitepr-https.middlewares=${MIDDLEWARE}
   python-backend:
     image: mwebsite-backend:latest    # build this from mwebsitepr.com/python-backend
     build: ./python-backend
