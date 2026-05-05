@@ -1,2 +1,4 @@
-docker build -t mwebsite-backend:latest /home/noize/mwebsitepr.com/python-backend
-docker build -t mwebsite-image:latest /home/noize/mwebsitepr.com
+docker compose down
+docker compose build --no-cache mwebsite
+docker compose up -d --force-recreate
+
