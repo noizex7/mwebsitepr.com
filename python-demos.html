@@ -5,95 +5,99 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="shortcut icon" type="image/x-icon" href="/assets/MWebsiteLogo.png" />
+  <link rel="shortcut icon" type="image/x-icon" href="/assets/MWebsiteLogo.png">
   <link rel="stylesheet" href="/bootstrap/bootstrap.min.css">
   <link rel="stylesheet" href="/style.css">
   <script src="/bootstrap/bootstrap.bundle.min.js"></script>
   <title>Python Demos | M Portfolio</title>
 </head>
 
-<body class="backgroundLight">
-  <nav class="navbar navbar-expand-lg backgroundLight fixed-top">
-    <div class="container-fluid navbar">
-      <div class="brandAnchor">
-        <a class="navbar-brand" href="/index.html">
-          <img src="/assets/MWebsiteLogo.png" alt="" width="40" height="40" class="align-text-top my-1 brandImage">Portfolio
-        </a>
-      </div>
+<body class="site-shell">
+  <div class="site-orb site-orb-one"></div>
+  <div class="site-orb site-orb-two"></div>
+
+  <nav class="navbar navbar-expand-lg fixed-top portfolio-navbar">
+    <div class="container nav-shell">
+      <a class="navbar-brand brand-mark" href="/index.html#greetings">
+        <img src="/assets/MWebsiteLogo.svg" alt="M Portfolio logo" width="40" height="40" class="brandImage" loading="lazy">
+        <span>M Portfolio</span>
+      </a>
       <button class="navbar-toggler navbarToggle" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class=""><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
-            class="bi bi-segmented-nav" viewBox="0 0 16 16">
+        <span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
             <path
               d="M0 6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6zm6 3h4V5H6v4zm9-1V6a1 1 0 0 0-1-1h-3v4h3a1 1 0 0 0 1-1z" />
-          </svg></span>
+          </svg>
+        </span>
       </button>
       <div class="collapse navbar-collapse menu" id="navbarNav">
-        <ul class="navbar-nav navbarCollapse">
-          <li class="nav-item">
-            <a class="nav-link" href="/index.html#greetings">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/index.html#work">Work</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/index.html#aboutMe">About Me</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/index.html#contact">Contact Me</a>
-          </li>
+        <ul class="navbar-nav ms-auto navbarCollapse">
+          <li class="nav-item"><a class="nav-link" href="/index.html#greetings">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="/index.html#work">Work</a></li>
+          <li class="nav-item"><a class="nav-link" href="/index.html#aboutMe">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="/index.html#contact">Contact</a></li>
         </ul>
       </div>
     </div>
   </nav>
 
   <main class="container pythonRunnerContainer">
-    <div class="row">
-      <div class="col-12">
-        <h1 class="Header">Python Demos</h1>
-        <p class="pythonDescription">Launch one of the showcase scripts on the server and interact with it in real time.
-          Type into the console input whenever the program prompts you.</p>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-12">
-        <div class="pythonControls">
-          <div class="mb-3">
-            <label class="form-label" for="script-selector">Choose a project</label>
-            <select class="form-select" id="script-selector"></select>
-          </div>
-          <div class="pythonActionButtons">
-            <button class="btn btn-dark" id="start-script" type="button">Start Script</button>
-            <button class="btn btn-outline-dark" id="stop-script" type="button" disabled>Stop</button>
-            <button class="btn btn-secondary" id="clear-output" type="button">Clear Output</button>
-          </div>
-          <p class="pythonStatus" id="python-status">Select a project and press Start Script.</p>
+    <div class="python-panel">
+      <div class="pythonHeader">
+        <div>
+          <a class="back-link" href="/index.html#work">Back to selected work</a>
+          <p class="section-eyebrow">Interactive demos</p>
+          <h1 class="section-title">Run Python projects live inside the portfolio.</h1>
+          <p class="pythonDescription">
+            Launch one of the showcase scripts on the server and interact with it in real time. Type into the console
+            input whenever the program prompts you.
+          </p>
         </div>
+      </div>
+
+      <div class="pythonControls">
+        <div class="mb-3">
+          <label class="form-label" for="script-selector">Choose a project</label>
+          <select class="form-select" id="script-selector"></select>
+        </div>
+        <div class="pythonActionButtons">
+          <button class="btn btn-primary" id="start-script" type="button">Start script</button>
+          <button class="btn btn-outline-light" id="stop-script" type="button" disabled>Stop</button>
+          <button class="btn btn-secondary" id="clear-output" type="button">Clear output</button>
+        </div>
+        <p class="pythonStatus" id="python-status">Select a project and press Start script.</p>
+      </div>
+
+      <div class="pythonOutputShell">
         <h2 class="pythonOutputTitle">Program output</h2>
         <pre style="overflow: auto; max-height: 400px;" id="python-output" class="pythonOutput" aria-live="polite"></pre>
-        <form class="pythonConsoleInput" id="console-form" autocomplete="off">
-          <label class="form-label" for="console-input">Console input</label>
-          <div class="pythonConsoleInputRow">
-            <input class="form-control" id="console-input" type="text" placeholder="Type a line to send" autocomplete="off" disabled>
-            <button class="btn btn-dark" id="send-input" type="submit" disabled>Send</button>
-          </div>
-          <small class="pythonConsoleHint">Input is sent line-by-line to the running script.</small>
-        </form>
       </div>
+
+      <form class="pythonConsoleInput" id="console-form" autocomplete="off">
+        <label class="form-label" for="console-input">Console input</label>
+        <div class="pythonConsoleInputRow">
+          <input class="form-control" id="console-input" type="text" placeholder="Type a line to send" autocomplete="off" disabled>
+          <button class="btn btn-primary" id="send-input" type="submit" disabled>Send</button>
+        </div>
+        <small class="pythonConsoleHint">Input is sent line-by-line to the running script.</small>
+      </form>
     </div>
   </main>
 
-  <footer class="backgroundDark pythonFooter">
-    <div class="container">
-      <div class="row">
-        <div class="col-12">
-          <p class="pythonFooterText">Want to see the source? Reach out and I’ll share the repository links.</p>
-        </div>
-      </div>
+  <footer class="site-footer pythonFooter">
+    <div class="container footer-shell">
+      <p class="pythonFooterText">Want to see the source? Reach out and I'll share the repository links.</p>
+      <p>&copy; <span id="currentYear"></span> M Portfolio.</p>
     </div>
   </footer>
 
   <script type="module">
+    const currentYear = document.getElementById("currentYear");
+    if (currentYear) {
+      currentYear.textContent = new Date().getFullYear();
+    }
+
     const scriptSelector = document.getElementById("script-selector");
     const startButton = document.getElementById("start-script");
     const stopButton = document.getElementById("stop-script");
@@ -115,7 +119,7 @@
       hangman: "hangman",
       rps: "rock_paper_scissors",
       "rock-paper-scissors": "rock_paper_scissors",
-      "rock_paper_scissors": "rock_paper_scissors",
+      rock_paper_scissors: "rock_paper_scissors",
       converter: "python_converter",
       conversor: "python_converter",
       "python-converter": "python_converter",
@@ -264,9 +268,7 @@
 
       resetOutput();
       setStatus("Connecting to backend...");
-
       closeSocket();
-
       socket = new WebSocket(wsUrl);
 
       socket.addEventListener("open", () => {

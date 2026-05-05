@@ -1,263 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="shortcut icon" type="image/x-icon" href="/assets/MWebsiteLogo.png" />
+  <link rel="shortcut icon" type="image/x-icon" href="/assets/MWebsiteLogo.png">
   <link rel="stylesheet" href="/bootstrap/bootstrap.min.css">
   <link rel="stylesheet" href="/style.css">
   <script src="/bootstrap/bootstrap.bundle.min.js"></script>
   <title>M Portfolio</title>
 </head>
 
-<body class="backgroundLight">
-  <nav class="navbar navbar-expand-lg backgroundLight fixed-top">
-    <div class="container-fluid navbar">
-      <div class="brandAnchor">
-        <a class="navbar-brand" href="#greetings">
-          <img src="/assets/MWebsiteLogo.svg" alt="" width="40" height="40"
-            class="align-text-top my-1 brandImage" loading='"lazy'>Portfolio
-        </a>
-      </div>
+<body class="site-shell">
+  <div class="site-orb site-orb-one"></div>
+  <div class="site-orb site-orb-two"></div>
+
+  <nav class="navbar navbar-expand-lg fixed-top portfolio-navbar">
+    <div class="container nav-shell">
+      <a class="navbar-brand brand-mark" href="#greetings">
+        <img src="/assets/MWebsiteLogo.svg" alt="M Portfolio logo" width="40" height="40" class="brandImage"
+          loading="lazy">
+        <span>M Portfolio</span>
+      </a>
       <button class="navbar-toggler navbarToggle" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class=""><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
-            class="bi bi-segmented-nav" viewbox="0 0 16 16">
+        <span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" viewBox="0 0 16 16"
+            aria-hidden="true">
             <path
               d="M0 6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6zm6 3h4V5H6v4zm9-1V6a1 1 0 0 0-1-1h-3v4h3a1 1 0 0 0 1-1z" />
-          </svg></span>
+          </svg>
+        </span>
       </button>
       <div class="collapse navbar-collapse menu" id="navbarNav">
-        <ul class="navbar-nav navbarCollapse">
-          <li class="nav-item">
-            <a class="nav-link" href="#greetings">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#work">Work</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#aboutMe">About Me</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#contact">Contact Me</a>
-          </li>
+        <ul class="navbar-nav ms-auto navbarCollapse">
+          <li class="nav-item"><a class="nav-link" href="#greetings">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="#work">Work</a></li>
+          <li class="nav-item"><a class="nav-link" href="#aboutMe">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
         </ul>
       </div>
     </div>
   </nav>
-  <section>
-    <div class="container-fluid greetingsContainer" id="greetings">
-      <div class="row">
-        <div class="col-sm-12 backgroundGreetings">
-          <img class="largeLogo img-fluid" src="/assets/MWebsiteLogo.svg" alt="">
-          <h2 class="portfolioText">Elian Madera's Portfolio</h2>
-        </div>
-      </div>
-    </div>
-  </section>
 
-  <section>
-    <div class="container-fluid">
-      <div class="row backgroundDark">
-        <div class="col-sm-12">
-          <div class="overview">
-            <a href="#aboutme">
-              <img src="/assets/Elian'sPhoto.jpg" alt="">
-              <h2>Full Stack Developer With The Intention Of Impacting The World</h2>
-              <h5 id="work"><i>"Long term mindset, short term expectations"</i></h5>
-            </a>
+  <main>
+    <section class="hero-section" id="greetings">
+      <div class="container hero-shell">
+        <div class="hero-copy">
+          <p class="section-eyebrow">Full-stack developer and builder</p>
+          <h1 class="hero-title">I design and ship digital experiences that feel thoughtful, fast, and durable.</h1>
+          <p class="hero-summary">
+            I'm Elian Madera. I build portfolio-grade frontends, production-minded backend systems, and interactive
+            demos
+            that turn ideas into something people can actually use.
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn-primary hero-button" href="#work">Explore my work</a>
+            <button type="button" class="btn btn-outline-light hero-button resume-pdf-link"
+              data-pdf="/assets/English resume.pdf" data-title="Resume">
+              Open resume
+            </button>
           </div>
+          <ul class="hero-metrics" aria-label="Portfolio highlights">
+            <li>
+              <span class="metric-value">10+</span>
+              <span class="metric-label">Technologies used in production and coursework</span>
+            </li>
+            <li>
+              <span class="metric-value">3</span>
+              <span class="metric-label">Focus areas: frontend, backend, and interactive demos</span>
+            </li>
+            <li>
+              <span class="metric-value">1</span>
+              <span class="metric-label">Goal: build things that are useful and memorable</span>
+            </li>
+          </ul>
         </div>
-      </div>
-    </div>
-  </section>
-
-  <section>
-    <div class="container-fluid backgroundLight">
-      <h1 class="Header">Work</h1>
-      <div class="workItems paddingBottom">
-        <div class="colCss">
-          <img class="img-fluid" src="/assets/conversor.jpeg" alt="">
-          <a class="noTextDecoration" href="/python-demos.html?example=python_converter">
-            <button type="button" class="btn btn-dark">Python Conversor</button>
-          </a>
-        </div>
-        <div class="colCss">
-          <img class="img-fluid" src="/assets/data-1590455.jpg" alt="">
-          <a class="noTextDecoration" href="/python-demos.html?example=password">
-            <button type="button" class="btn btn-dark">Python Password Generator</button>
-          </a>
-        </div>
-        <div class="colCss">
-          <img class="img-fluid" src="/assets/Hangman.png" alt="">
-          <a class="noTextDecoration" href="/python-demos.html?example=hangman">
-            <button type="button" class="btn btn-dark">Python Hangman Game</button>
-          </a>
-        </div>
-        <div class="colCss">
-          <img class="img-fluid" src="/assets/rockpaperscissorswork.png" alt="">
-          <a class="noTextDecoration" href="/python-demos.html?example=rps">
-            <button type="button" class="btn btn-dark">Python Rock, Paper, Scissors Game</button>
-          </a>
-        </div>
-        <div class="colCss">
-          <img class="img-fluid" src="/assets/CardinalDashboards/ProjectHealth.png" alt="">
-          <a class="noTextDecoration" href="cardinal-dashboards.html" target="_blank">
-            <button type="button" class="btn btn-dark">Cardinal Dashboards Projects</button>
-          </a>
-        </div>
-        <div class="colCss">
-          <img class="img-fluid" src="/assets/arduino.jpg" alt="">
-          <button data-bs-target="#MicroInterfacingModal" data-bs-toggle="modal" type="button"
-            class="btn btn-dark">Micro Interfacing</button>
-          <div class="modal fade" id="MicroInterfacingModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">Micro Interfacing</h5>
-                </div>
-                <div class="modal-body">
-                  <div class="d-grid gap-2">
-                    <button type="button" class="btn btn-dark micro-pdf-link" data-pdf="/assets/MicroInterfacing/Lab1.pdf"
-                      data-title="Laboratory 1">
-                      Laboratory 1
-                    </button>
-                    <button type="button" class="btn btn-dark micro-pdf-link" data-pdf="/assets/MicroInterfacing/Lab2.pdf"
-                      data-title="Laboratory 2">
-                      Laboratory 2
-                    </button>
-                    <button type="button" class="btn btn-dark micro-pdf-link" data-pdf="/assets/MicroInterfacing/Lab3.pdf"
-                      data-title="Laboratory 3">
-                      Laboratory 3
-                    </button>
-                    <button type="button" class="btn btn-dark micro-pdf-link" data-pdf="/assets/MicroInterfacing/Lab4.pdf"
-                      data-title="Laboratory 4">
-                      Laboratory 4
-                    </button>
-                    <button type="button" class="btn btn-dark micro-pdf-link" data-pdf="/assets/MicroInterfacing/Lab5.pdf"
-                      data-title="Laboratory 5">
-                      Laboratory 5
-                    </button>
-                    <button type="button" class="btn btn-dark micro-pdf-link" data-pdf="/assets/MicroInterfacing/Lab6.pdf"
-                      data-title="Laboratory 6">
-                      Laboratory 6
-                    </button>
-                    <button type="button" class="btn btn-dark micro-pdf-link" data-pdf="/assets/MicroInterfacing/Lab7.pdf"
-                      data-title="Laboratory 7">
-                      Laboratory 7
-                    </button>
-                  </div>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
-                </div>
-              </div>
+        <div class="hero-visual">
+          <div class="hero-logo-card">
+            <img class="largeLogo img-fluid" src="/assets/MWebsiteLogo.svg" alt="M Portfolio monogram">
+            <p class="hero-card-label">Portfolio identity</p>
+          </div>
+          <div class="hero-profile-card">
+            <img src="/assets/Elian'sPhoto.jpg" alt="Portrait of Elian Madera" class="hero-portrait" loading="lazy">
+            <div class="hero-profile-copy">
+              <h2>Long-term mindset, short-term expectations.</h2>
+              <p>I focus on steady execution, clean engineering, and building assets that compound over time.</p>
             </div>
           </div>
         </div>
-        <div class="colCss">
-          <img class="img-fluid" src="/assets/ecommerce.png" alt="">
-          <a id="aboutMe" class="noTextDecoration" href="https://shop.mwebsitepr.com" target="_blank">
-            <button type="button" class="btn btn-dark">Elian's In Progress Ecommerce Page</button>
-          </a>
-        </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <div class="modal fade" id="pdfViewerModal" tabindex="-1" aria-labelledby="pdfViewerModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable modal-fullscreen-sm-down">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="pdfViewerModalLabel">Micro Interfacing PDF</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <iframe id="microPdfViewer" class="pdf-viewer-frame" title="Micro Interfacing PDF preview" loading="lazy">
-          </iframe>
-        </div>
-        <div class="modal-footer">
-          <a id="pdfViewerOpenOriginal" class="btn btn-outline-dark me-auto disabled" href="#" target="_blank"
-            rel="noopener" aria-disabled="true" tabindex="-1">
-            Open in new tab
-          </a>
-          <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <section>
-    <div class="container-fluid backgroundDark">
-      <div class="row paddingBottom align-items-center about-me-section" id="aboutMeSection">
-        <div class="col-lg-11 col-sm-10">
-          <h1 class="Header">About Me</h1>
-          <p class="aboutMeParagraph">
-            I’m passionate about universe-building stories like Star Wars and Marvel, but you’re really here to learn
-            how I can help you.
-          </p>
-          <p class="aboutMeParagraph">
-            I’m an entrepreneur and full-stack developer with hands-on experience in HTML, CSS, JavaScript, Bootstrap 5,
-             C#, ASP.NET, Blazor and ScrollMagic, plus solid foundations in Python, PHP, Java, C++, React, SQL, NoSQL
-            (MongoDB), Assembly and VHDL. This website is served to the public in Docker containers behind a Traefik
-            reverse proxy, protected by CrowdSec, geoblocking and rate limits to keep unwanted traffic at bay.
-          </p>
-          <div class="text-center">
-            <button type="button" class="btn btn-dark resume-pdf-link" data-pdf="/assets/English resume.pdf"
-              data-title="Resume">
-              Get My Resume Here
-            </button>
-          </div>
-        </div>
-        <div class="col-lg-1 col-sm-2 d-flex justify-content-center">
-          <img src="/assets/Grogu.svg" alt="Grogu illustration" class="groguSvg img-fluid" loading="lazy">
-        </div>
-      </div>
-    </div>
-  </section>
-  <section id="contact">
-    <div class="container-fluid">
-      <div class="row paddingBottom">
-        <div class="col-sm-12">
-          <h1 class="Header">Contact Me</h1>
-          <br>
-          <h3 class="sendEmail">Feel free to send an e-mail on <a
-              href="mailto:admin@mwebsitepr.com">admin@mwebsitepr.com</a></h3>
+    <section class="section-block section-intro">
+      <div class="container">
+        <div class="section-panel intro-panel">
           <div>
-            <h3 class="sendEmail">Or you can drop a mail here!</h3>
-            <form id="contactForm" novalidate>
-              <div class="mb-3">
-                <label for="contactEmail" class="form-label">Email address</label>
-                <input type="email" class="form-control" id="contactEmail" name="email" aria-describedby="emailHelp"
-                  required>
-                <div id="emailHelp" class="form-text">I'll never share your email with anyone else.</div>
+            <p class="section-eyebrow">What I do</p>
+            <h2 class="section-title">A portfolio built around practical work, not placeholders.</h2>
+          </div>
+          <p class="section-lead">
+            This site showcases interactive Python demos, academic and professional deliverables, and product work that
+            reflects how I think about implementation, security, and maintainability.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-block" id="work">
+      <div class="container">
+        <div class="section-heading">
+          <p class="section-eyebrow">Selected work</p>
+          <h2 class="section-title">Projects presented like outcomes, not just links.</h2>
+          <p class="section-lead">
+            Each project below highlights a different side of my work: scripting, interaction design, systems thinking,
+            and product execution.
+          </p>
+        </div>
+
+        <div class="projects-grid">
+          <article class="project-card project-card-featured">
+            <img class="project-media" src="/assets/CardinalDashboards/ProjectHealth.png"
+              alt="Cardinal Dashboards project preview">
+            <div class="project-content">
+              <div class="project-tags">
+                <span>Enterprise</span>
+                <span>Documentation</span>
+                <span>Dashboards</span>
               </div>
-              <div class="mb-3">
-                <label for="contactName" class="form-label">Name</label>
-                <input type="text" class="form-control" id="contactName" name="name" required>
+              <h3>Cardinal Dashboards</h3>
+              <p>Project planning artifacts, software documentation, and dashboard previews created for a full software
+                lifecycle engagement.</p>
+              <a class="btn btn-primary project-link" href="/cardinal-dashboards.html">View project</a>
+            </div>
+          </article>
+
+          <article class="project-card">
+            <img class="project-media" src="/assets/conversor.jpeg" alt="Python converter preview">
+            <div class="project-content">
+              <div class="project-tags">
+                <span>Python</span>
+                <span>CLI</span>
               </div>
-              <div class="mb-3">
-                <label for="contactMessage" class="form-label">Message</label>
-                <br>
-                <textarea class="form-control" name="message" id="contactMessage" rows="5" required></textarea>
+              <h3>Python Converter</h3>
+              <p>An interactive converter demo that turns command-line logic into a browser-accessible experience.</p>
+              <a class="btn btn-outline-light project-link" href="/python-demos.html?example=python_converter">Launch
+                demo</a>
+            </div>
+          </article>
+
+          <article class="project-card">
+            <img class="project-media" src="/assets/data-1590455.jpg" alt="Password generator preview">
+            <div class="project-content">
+              <div class="project-tags">
+                <span>Python</span>
+                <span>Utility</span>
               </div>
-              <button type="submit" class="btn btn-dark submitBtn">Submit</button>
-              <div id="contactFeedback" class="alert mt-3 d-none" role="alert"></div>
-            </form>
+              <h3>Password Generator</h3>
+              <p>A simple but useful generator focused on speed, clarity, and real interaction through the web runner.
+              </p>
+              <a class="btn btn-outline-light project-link" href="/python-demos.html?example=password">Launch demo</a>
+            </div>
+          </article>
+
+          <article class="project-card">
+            <img class="project-media" src="/assets/Hangman.png" alt="Hangman game preview">
+            <div class="project-content">
+              <div class="project-tags">
+                <span>Python</span>
+                <span>Game</span>
+              </div>
+              <h3>Hangman</h3>
+              <p>A playable terminal-style game surfaced in the browser, showing how lightweight scripts can still feel
+                engaging.</p>
+              <a class="btn btn-outline-light project-link" href="/python-demos.html?example=hangman">Launch demo</a>
+            </div>
+          </article>
+
+          <article class="project-card">
+            <img class="project-media" src="/assets/rockpaperscissorswork.png" alt="Rock paper scissors preview">
+            <div class="project-content">
+              <div class="project-tags">
+                <span>Python</span>
+                <span>Interaction</span>
+              </div>
+              <h3>Rock, Paper, Scissors</h3>
+              <p>A compact game demo that emphasizes live input, server execution, and a smoother browser wrapper.</p>
+              <a class="btn btn-outline-light project-link" href="/python-demos.html?example=rps">Launch demo</a>
+            </div>
+          </article>
+
+          <article class="project-card">
+            <img class="project-media" src="/assets/arduino.jpg" alt="Micro interfacing project preview">
+            <div class="project-content">
+              <div class="project-tags">
+                <span>Hardware</span>
+                <span>Labs</span>
+              </div>
+              <h3>Micro Interfacing</h3>
+              <p>Course laboratory work documenting embedded systems concepts, experiments, and implementation steps.
+              </p>
+              <button data-bs-target="#MicroInterfacingModal" data-bs-toggle="modal" type="button"
+                class="btn btn-outline-light project-link">
+                Browse labs
+              </button>
+            </div>
+          </article>
+
+          <article class="project-card">
+            <img class="project-media" src="/assets/ecommerce.png" alt="Ecommerce project preview">
+            <div class="project-content">
+              <div class="project-tags">
+                <span>Product</span>
+                <span>In Progress</span>
+              </div>
+              <h3>Ecommerce Build</h3>
+              <p>An evolving storefront project focused on design experimentation, product presentation, and iterative
+                shipping.</p>
+              <a class="btn btn-outline-light project-link" href="https://shop.mwebsitepr.com" target="_blank"
+                rel="noopener">
+                Visit storefront
+              </a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <div class="modal fade" id="MicroInterfacingModal" tabindex="-1" aria-labelledby="microInterfacingModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content portfolio-modal">
+          <div class="modal-header">
+            <h5 class="modal-title" id="microInterfacingModalLabel">Micro Interfacing Labs</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="d-grid gap-2">
+              <button type="button" class="btn btn-outline-light micro-pdf-link"
+                data-pdf="/assets/MicroInterfacing/Lab1.pdf" data-title="Laboratory 1">Laboratory 1</button>
+              <button type="button" class="btn btn-outline-light micro-pdf-link"
+                data-pdf="/assets/MicroInterfacing/Lab2.pdf" data-title="Laboratory 2">Laboratory 2</button>
+              <button type="button" class="btn btn-outline-light micro-pdf-link"
+                data-pdf="/assets/MicroInterfacing/Lab3.pdf" data-title="Laboratory 3">Laboratory 3</button>
+              <button type="button" class="btn btn-outline-light micro-pdf-link"
+                data-pdf="/assets/MicroInterfacing/Lab4.pdf" data-title="Laboratory 4">Laboratory 4</button>
+              <button type="button" class="btn btn-outline-light micro-pdf-link"
+                data-pdf="/assets/MicroInterfacing/Lab5.pdf" data-title="Laboratory 5">Laboratory 5</button>
+              <button type="button" class="btn btn-outline-light micro-pdf-link"
+                data-pdf="/assets/MicroInterfacing/Lab6.pdf" data-title="Laboratory 6">Laboratory 6</button>
+              <button type="button" class="btn btn-outline-light micro-pdf-link"
+                data-pdf="/assets/MicroInterfacing/Lab7.pdf" data-title="Laboratory 7">Laboratory 7</button>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </section>
-  <footer class="backgroundDark">
-    <h6>Made with <span>♥</span> in 2022</h6>
-    <h6>© 2022, All rights reserved.</h6>
+
+    <div class="modal fade" id="pdfViewerModal" tabindex="-1" aria-labelledby="pdfViewerModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable modal-fullscreen-sm-down">
+        <div class="modal-content portfolio-modal">
+          <div class="modal-header">
+            <h5 class="modal-title" id="pdfViewerModalLabel">Document Viewer</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <iframe id="microPdfViewer" class="pdf-viewer-frame" title="PDF preview" loading="lazy"></iframe>
+          </div>
+          <div class="modal-footer">
+            <a id="pdfViewerOpenOriginal" class="btn btn-outline-light me-auto disabled" href="#" target="_blank"
+              rel="noopener" aria-disabled="true" tabindex="-1">
+              Open in new tab
+            </a>
+            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <section class="section-block section-dark" id="aboutMe">
+      <div class="container">
+        <div class="about-shell about-me-section" id="aboutMeSection">
+          <div class="about-copy">
+            <p class="section-eyebrow">About me</p>
+            <h2 class="section-title">I care about useful software, durable systems, and work that keeps improving.</h2>
+            <p class="section-lead">
+              I'm an entrepreneur and full-stack developer with hands-on experience in HTML, CSS, JavaScript, Bootstrap,
+              C#, ASP.NET, Blazor, Python, PHP, Java, C++, React, SQL, NoSQL, Assembly, and VHDL.
+            </p>
+            <p class="about-detail">
+              This portfolio is served through Dockerized infrastructure with a FastAPI backend, reverse proxying, and
+              security controls in place. I like building things that are polished for users and disciplined under the
+              hood.
+            </p>
+            <div class="skills-cloud" aria-label="Primary technology areas">
+              <span>Frontend systems</span>
+              <span>Backend APIs</span>
+              <span>Interactive demos</span>
+              <span>Containerized deployment</span>
+              <span>Security-minded delivery</span>
+            </div>
+          </div>
+          <div class="about-aside">
+            <div class="about-note">
+              <h3>How I work</h3>
+              <p>Clear communication, practical execution, and steady iteration over hype.</p>
+            </div>
+            <img src="/assets/Grogu.svg" alt="Grogu illustration" class="groguSvg img-fluid" loading="lazy">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-block" id="contact">
+      <div class="container">
+        <div class="contact-shell">
+          <div class="contact-copy">
+            <p class="section-eyebrow">Contact</p>
+            <h2 class="section-title">If the work feels aligned, let's talk.</h2>
+            <p class="section-lead">Reach me directly at <a href="mailto:admin@mwebsitepr.com">admin@mwebsitepr.com</a>
+              or send a message here.</p>
+          </div>
+          <form id="contactForm" class="contact-form" novalidate>
+            <div class="mb-3">
+              <label for="contactEmail" class="form-label">Email address</label>
+              <input type="email" class="form-control" id="contactEmail" name="email" aria-describedby="emailHelp"
+                required>
+              <div id="emailHelp" class="form-text">I will only use your email to respond to your message.</div>
+            </div>
+            <div class="mb-3">
+              <label for="contactName" class="form-label">Name</label>
+              <input type="text" class="form-control" id="contactName" name="name" required>
+            </div>
+            <div class="mb-3">
+              <label for="contactMessage" class="form-label">Message</label>
+              <textarea class="form-control" name="message" id="contactMessage" rows="5" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary submitBtn">Send message</button>
+            <div id="contactFeedback" class="alert mt-3 d-none" role="alert"></div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-shell">
+      <p>Built by Elian Madera with a product and engineering mindset.</p>
+      <p>&copy; <span id="currentYear"></span> M Portfolio. All rights reserved.</p>
+    </div>
   </footer>
 
   <script src="/scrollmagic/ScrollMagic.min.js"></script>
-  <script src="/scrollmagicAnimations.js"> </script>
+  <script src="/scrollmagicAnimations.js"></script>
   <script>
     document.addEventListener("DOMContentLoaded", () => {
+      const currentYear = document.getElementById("currentYear");
+      if (currentYear) {
+        currentYear.textContent = new Date().getFullYear();
+      }
+
       const microModal = document.getElementById("MicroInterfacingModal");
       const pdfModalElement = document.getElementById("pdfViewerModal");
       const pdfTitleElement = document.getElementById("pdfViewerModalLabel");
@@ -383,7 +486,7 @@
         }
 
         submitBtn.disabled = true;
-        showFeedback("Sending your message…", "info");
+        showFeedback("Sending your message...", "info");
 
         try {
           const response = await fetch("/api/contact", {
@@ -398,7 +501,7 @@
           }
 
           form.reset();
-          showFeedback("Thanks! Your message is on its way.", "success");
+          showFeedback("Thanks. Your message is on its way.", "success");
         } catch (error) {
           showFeedback(error.message, "danger");
         } finally {
@@ -407,7 +510,6 @@
       });
     });
   </script>
-
 </body>
 
 </html>
